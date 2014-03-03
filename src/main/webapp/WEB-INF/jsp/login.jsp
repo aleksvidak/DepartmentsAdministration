@@ -5,7 +5,20 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>Prijava</title>
+
 <link href="${pageContext.request.contextPath}/resources/css/style.css" rel="stylesheet" >
+<style>
+.error {
+	color: #ff0000;
+}
+
+
+</style>
+
+<script type="text/javascript" src="script/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="script/jquery.validate.js"></script>
+<script type="text/javascript" src="script/login.js"></script>
+
 </head>
 <body>
 		<h1 class="title1">Fakultet organizacionih nauka</h1>
@@ -14,15 +27,17 @@
 		<div class="logo"></div>
 		</div>
 		
-		<form:form commandName="loginForma" class="login">
+		<form:form commandName="loginForma" class="login" id="frm_Login">
 		    <p>
 		      <label for="login">Email:</label>
-		      <form:input path="korisnickoIme" placeholder="name@examle.com"/>
+		      <form:input path="korisnickoIme" placeholder="name@examle.com" />		      
+		   
 		    </p>
 		
 		    <p>
 		      <label for="password">Lozinka:</label>
 		      <form:password path="korisnickaSifra" placeholder="vaša lozinka"/>
+		 
 		    </p>
 		
 		    <p class="login-submit">
@@ -32,7 +47,7 @@
 		    <p class="forgot-password"><a href="index.html">Zaboravili ste lozinku?</a></p>
 		</form:form>
 		
-		
+			
 		
 		<!-- 
 		  <form method="post" class="login">
