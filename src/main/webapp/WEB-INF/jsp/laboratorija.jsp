@@ -11,12 +11,14 @@
 	<link rel='stylesheet' type='text/css' href='${pageContext.request.contextPath}/resources/css/MasterPageStyle.css' />
 	<link rel='stylesheet' type='text/css' href='${pageContext.request.contextPath}/resources/css/jquery-ui-1.9.2.custom.css' />
 	<link rel='stylesheet' type='text/css' href='${pageContext.request.contextPath}/resources/css/jquery.dataTables_themeroller.css' />
-
+<link rel='stylesheet' type='text/css' href='${pageContext.request.contextPath}/resources/css/jquery_notification.css' />
 
 <script type="text/javascript" src="resources/script/jquery-1.7.1.min.js"></script>
 <script type="text/javascript" src="resources/script/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="resources/script/jquery-ui-1.9.2.custom.min.js"></script>
 <script type="text/javascript" src="resources/script/laboratorija.js"></script>
+<script type="text/javascript" src="resources/script/jquery.validate.js"></script>
+<script type="text/javascript" src="resources/script/jquery_notification_v.1.js"></script>
 
 
 
@@ -93,25 +95,28 @@
                  <input type='button' value='Izmeni' id='btnChange'  disabled="disabled" style="font-family: Verdana,Arial,sans-serif; font-size: 1em; width: 90px;"/> 
                   <input type='button' value='Obrisi' id='btnDel' disabled="disabled" style="font-family: Verdana,Arial,sans-serif; font-size: 1em; width: 90px;"/> 
         </div>
-        <div id="divLabPOPUP" style="width:1000px; display: none" >
+       <div id="divLabPOPUP" style="width:1000px; display: none" >
+        <form  id="frmLabs"  >
         	<table>
         		<tbody>
         			<tr>
         				<td>Naziv:</td>
-        				<td><input type="text" id="nazivLab"></td>
+        				<td><input type="text" id="nazivLab" name="nazivLab"></td>
         			</tr>
         			<tr>
         				<td>Sajt:</td>
         				<td><input type="text" id="sajtLab"></td></tr>
         			<tr>
         				<td>Katedra:</td>
-        				<td><select id="katedraLab"></td>
+        				<td><div id="katedraLab"></div></td>
         			</tr>        			
         		</tbody>
         	</table>
-        	 <input type='button' value='Sacuvaj' id='btnSacuvaj'/>
+        	
+       	<input type="button" value='Sacuvaj' id='btnSacuvaj'/>
         <input type='button' value='Ponisti' id='btnPonisti'/>
         <input type='button' value='Odustani' id='btnOdustani'/>
+         </form>
         </div> 
 </div>
 </div>

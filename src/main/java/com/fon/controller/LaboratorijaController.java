@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fon.jpadatabase.JPADatabase;
+import com.fon.jsonmodel.JSON_User;
 import com.fon.jsonmodel.KatedraJSON;
 
 @Controller
@@ -36,14 +37,28 @@ public class LaboratorijaController {
 			KatedraJSON p=new KatedraJSON();
 			p.setID_Katedre(item.getID_katedre());
 			p.setNazivKatedre(item.getNaziv_katedre());
-			
-			System.out.println(p.getNazivKatedre());
 			listaJSON.add(p);
 		}
 	
 		return listaJSON;
 	}
-	
+	@RequestMapping(value="/dodajLab", method=RequestMethod.POST)
+	public @ResponseBody String proba(String nazivLab, String selKatedre, String sajt){
+		
+		
+		Katedra k=new Katedra();
+		k.setID_katedre(Integer.parseInt(selKatedre));
+		Laboratorija l=new Laboratorija();
+		l.setNaziv_laboratorije(nazivLab);
+		l.setSajt(sajt);
+		l.setKatedra(k);
+//		
+		String id_Lab=JPADatabase.dajObjekat().sacuvajLaboratoriju(l);
+		
+		
+		
+		return id_Lab;
+	}
 
 
 }

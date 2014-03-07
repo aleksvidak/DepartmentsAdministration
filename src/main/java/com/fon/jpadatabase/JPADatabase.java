@@ -70,5 +70,31 @@ public class JPADatabase {
         }
         return listaKatedra;
     }
+    
+    public String sacuvajLaboratoriju(Laboratorija lab) {
+        String idLab = "";
+        EntityManager em = emf.createEntityManager();
+        try {
+           // Laboratorija l = em.find(Laboratorija.class, lab.getId_laboratorije());
+            //if (l == null) {
+                em.getTransaction().begin();
+                em.persist(lab);
+                em.flush();
+                em.getTransaction().commit();
+                
+                idLab =""+ lab.getId_laboratorije();
+          //  } else {
+          //      poruka = "VEC POSTOJI";
+          //  }
+
+
+        } catch (Exception e) {
+            idLab = e.getMessage();
+        } finally {
+            em.close();
+        }
+        return idLab;
+    } 
+    
 
 }
