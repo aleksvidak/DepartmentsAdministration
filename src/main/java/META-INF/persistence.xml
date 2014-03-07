@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+	<persistence-unit name="AdministracijaKatedri" transaction-type="RESOURCE_LOCAL">
+		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+			<class>model.Login</class>
+			<class>model.Kabinet</class>
+			<class>model.Katedra</class>
+			<class>model.Laboratorija</class>
+			<class>model.Nastavnik</class>
+			<class>model.Nastavnik_Zvanje</class>
+			<class>model.Predmeti</class>
+			<class>model.Pripadnost_Nastavnika_katedri</class>
+			<class>model.Pripadnost_predmeta_katedri</class>
+			<class>model.Vrsta_nastavnika</class>
+			<class>model.Zvanje</class>
+			<properties>
+			<property name="javax.persistence.jdbc.url" value="jdbc:sqlserver://localhost:1433;databaseName=FON_MASTER"/>
+			<property name="javax.persistence.jdbc.user" value="sa"/>
+			<property name="javax.persistence.jdbc.password" value="masterfon"/>
+			<property name="javax.persistence.jdbc.driver" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
+		</properties>
+	</persistence-unit>
+</persistence>

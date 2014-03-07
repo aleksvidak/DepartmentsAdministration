@@ -36,7 +36,7 @@
 		
 		    <p>
 		      <label for="password">Lozinka:</label>
-		      <form:password path="korisnickaSifra" placeholder="vaša lozinka"/>
+		      <form:password path="lozinka" placeholder="vaša lozinka"/>
 		 
 		    </p>
 		
