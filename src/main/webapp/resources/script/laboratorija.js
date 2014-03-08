@@ -1,4 +1,5 @@
 $(document).ready(function () {
+	var azuriranje=0;
 	$.ajaxSetup({ cache: false });
     $.ajax({
         url: 'laboratorijaListaKatedri.json',
@@ -42,10 +43,10 @@ $(document).ready(function () {
         "bJQueryUI": true,
         "bFilter": false,
          "bStateSave": true,
-        "aoColumnDefs": [
-               { "bSearchable": false, "bSortable": false, "bVisible": false, "aTargets": [0] },
-               { "bSearchable": false, "bSortable": false, "bVisible": false, "aTargets": [2] }
-        ],
+//        "aoColumnDefs": [
+//               { "bSearchable": false, "bSortable": false, "bVisible": false, "aTargets": [0] },
+//               { "bSearchable": false, "bSortable": false, "bVisible": false, "aTargets": [2] }
+//        ],
         "oLanguage": {
             "sProcessing": "Procesiranje u toku...",
             "sLengthMenu": "Prikazi _MENU_  ",
@@ -77,12 +78,7 @@ $(document).ready(function () {
         
      
     });   
-   
-   $('#btnNew').click(function () {
-	   $("#nazivLab").attr('value', '');
-       $("#selKatedre").attr('value', '');
-       $("#sajtLab").attr('value', '');
-       
+   function otvoriPopUp(){
 	   $("#divLabPOPUP").dialog({
            title: "Dodavanje laboratorije",
            width: 670,
@@ -92,10 +88,19 @@ $(document).ready(function () {
                //$(this).parent().appendTo($('#frmLabs'));
            }
        });
+	   
+   }
+   
+   $('#btnNew').click(function () {
+	   azuriranje=0;
+	   $("#nazivLab").attr('value', '');
+       $("#selKatedre").attr('value', '');
+       $("#sajtLab").attr('value', '');
+       otvoriPopUp();
+
 
    });
-   
-   $('#btnSacuvaj').click(function () {
+   function Proc_Insert(){
 	   if ($("#frmLabs").validate().form()) {	  
 		   
 	        $.ajax({
@@ -119,10 +124,10 @@ $(document).ready(function () {
 	                  $("#selKatedre").attr('value', '');
 	                  $("#sajtLab").attr('value', '');
 	                  showNotification({
-                          message: 'Sacuvano',
-                          autoClose: true,
-                          duration: 5
-                      });
+                         message: 'Sacuvano',
+                         autoClose: true,
+                         duration: 5
+                     });
 
 	            },
 	        error: function(){
@@ -131,6 +136,57 @@ $(document).ready(function () {
 
 	        }); // kraj ajax
 	   }
+	   
+   }
+   function  Proc_Update(){
+	   if ($("#frmLabs").validate().form()) {	  
+		   var anSelected = fnGetSelected(oTable);
+	        $.ajax({
+	            url: 'izmeniLab.html',
+	            type: 'POST',
+	            data: {
+	            	id_Lab:oTable.fnGetData(anSelected[0])[0].toString(),
+	            	nazivLab: $("#nazivLab").val(),
+	            	selKatedre: $("#selKatedre").val(),
+	            	sajt:$("#sajtLab").val(),
+	              
+	            },
+	            success: function (data) {	   
+	            //	alert(fnGetData(anSelected[0])[0].toString());
+	            	  oTable.fnUpdate([
+	            	                  oTable.fnGetData(anSelected[0])[0].toString(),
+	                                   $("#nazivLab").val(),
+	                                   $("#selKatedre").val(),
+	                                   $("#selKatedre option:selected").text(),
+	                                   $("#sajtLab").val()
+	                                   ],anSelected[0]);
+	            	
+	            	  $("#divLabPOPUP").dialog('close');
+	                 
+	                  showNotification({
+                        message: data,
+                       autoClose: true,
+                       duration: 5
+                    });
+
+	            },
+	        error: function(){
+	        	alert("GRESKA");
+	        }
+
+	        }); // kraj ajax
+	   }
+	   
+   }
+   
+   $('#btnSacuvaj').click(function () {
+	   if(azuriranje==0){
+		   Proc_Insert();
+	   }
+	   else{
+		   Proc_Update();
+	   }
+
    });
    $('#btnPonisti').click(function () {
 	   $("#nazivLab").attr('value', '');
@@ -140,12 +196,49 @@ $(document).ready(function () {
    });
    
    $('#btnChange').click(function () {
-       alert("Otvori popup za menjanje");
+	   azuriranje=1;
+	   var anSelected = fnGetSelected(oTable);
+	   $("#nazivLab").attr('value', oTable.fnGetData(anSelected[0])[1].toString());
+       $("#selKatedre").attr('value',oTable.fnGetData(anSelected[0])[2].toString());
+       $("#sajtLab").attr('value', oTable.fnGetData(anSelected[0])[4].toString());
+       otvoriPopUp();
+       
 
    });
    
    $('#btnDel').click(function () {
-       alert("Obrisi slog");
+	   var anSelected = fnGetSelected(oTable);
+       $.ajax({
+           url: 'obrisiLab.html',
+           type: 'POST',
+           data: {
+           	id_Lab:oTable.fnGetData(anSelected[0])[0].toString()             
+           },
+           success: function (data) {	              
+        	   oTable.fnDeleteRow(anSelected[0]);
+        	   if(data=="OBRISANO"){
+        		    showNotification({
+                        message: data,
+                       autoClose: true,
+                       duration: 5
+                    });
+        	   }
+        	   else{
+        		    showNotification({
+                        message: data,
+                       autoClose: true,
+                       type: "warning",
+                       duration: 5
+                    });
+        	   }
+             
+
+           },
+       error: function(){
+       	alert("GRESKA");
+       }
+
+       }); // kraj ajax
 
    });
    

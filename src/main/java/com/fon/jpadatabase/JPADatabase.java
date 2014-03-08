@@ -95,6 +95,54 @@ public class JPADatabase {
         }
         return idLab;
     } 
+    public String izmeniLaboratoriju(Laboratorija lab) {
+        String poruka = "";
+        EntityManager em = emf.createEntityManager();
+        try {
+            Laboratorija l = em.find(Laboratorija.class, lab.getId_laboratorije());
+           // if (l == null) {
+                em.getTransaction().begin();
+	               l.setKatedra(lab.getKatedra());
+	               l.setNaziv_laboratorije(lab.getNaziv_laboratorije());
+	               l.setSajt(lab.getSajt());
+                em.getTransaction().commit();
+                
+                poruka ="IZMENJENO";
+          //  } else {
+              
+          //  }
+
+
+        } catch (Exception e) {
+        	poruka = e.getMessage();
+        } finally {
+            em.close();
+        }
+        return poruka;
+    } 
+    public String obrisiLaboratoriju(int ID_Lab) {
+        String poruka = "";
+        EntityManager em = emf.createEntityManager();
+        try {
+            Laboratorija l = em.find(Laboratorija.class, ID_Lab);
+           // if (l == null) {
+                em.getTransaction().begin();
+	              em.remove(l);
+                em.getTransaction().commit();
+                
+                poruka ="OBRISANO";
+          //  } else {
+              
+          //  }
+
+
+        } catch (Exception e) {
+        	poruka = e.getMessage();
+        } finally {
+            em.close();
+        }
+        return poruka;
+    } 
     
 
 }

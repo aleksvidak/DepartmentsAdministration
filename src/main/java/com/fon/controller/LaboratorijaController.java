@@ -43,7 +43,7 @@ public class LaboratorijaController {
 		return listaJSON;
 	}
 	@RequestMapping(value="/dodajLab", method=RequestMethod.POST)
-	public @ResponseBody String proba(String nazivLab, String selKatedre, String sajt){
+	public @ResponseBody String dodajLab(String nazivLab, String selKatedre, String sajt){
 		
 		
 		Katedra k=new Katedra();
@@ -58,6 +58,28 @@ public class LaboratorijaController {
 		
 		
 		return id_Lab;
+	}
+	
+	@RequestMapping(value="/izmeniLab", method=RequestMethod.POST)
+	public @ResponseBody String izmeniLab(String id_Lab, String nazivLab, String selKatedre, String sajt){
+		Katedra k=new Katedra();
+		k.setID_katedre(Integer.parseInt(selKatedre));
+		Laboratorija l=new Laboratorija();
+		l.setId_laboratorije(Integer.parseInt(id_Lab));
+		l.setNaziv_laboratorije(nazivLab);
+		l.setSajt(sajt);
+		l.setKatedra(k);
+		String poruka=JPADatabase.dajObjekat().izmeniLaboratoriju(l);
+		
+		
+		return poruka;
+	}
+	@RequestMapping(value="/obrisiLab", method=RequestMethod.POST)
+	public @ResponseBody String izmeniLab(String id_Lab){
+		String poruka=JPADatabase.dajObjekat().obrisiLaboratoriju(Integer.parseInt(id_Lab));
+		
+		
+		return poruka;
 	}
 
 
