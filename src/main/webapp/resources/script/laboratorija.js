@@ -55,7 +55,7 @@ $(document).ready(function () {
             "sInfoEmpty": "Prikaz 0 od 0 do ukupno 0 elemenata",
 
             "sInfoPostFix": "",
-            
+            "sSearch": "Pretraga:",
             "sUrl": "",
             "oPaginate": {
                 "sFirst": "Pocetna",
@@ -109,7 +109,7 @@ $(document).ready(function () {
 	            data: {
 	            	nazivLab: $("#nazivLab").val(),
 	            	selKatedre: $("#selKatedre").val(),
-	            	sajt:$("#sajtLab").val(),
+	            	sajt:$("#sajtLab").val()
 	              
 	            },
 	            success: function (data) {

@@ -22,6 +22,7 @@ public class LaboratorijaController {
 	public String laboratorija(Model model){
 		List<Laboratorija> labList=JPADatabase.dajObjekat().listaLaboratorija();
 		model.addAttribute("labList",labList);
+		
 		List<Katedra> listaKatedri=JPADatabase.dajObjekat().listaKatedri();
 		model.addAttribute("listaKatedri", listaKatedri);
 	

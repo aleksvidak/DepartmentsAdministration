@@ -34,7 +34,7 @@
       <ul>
          <li><a href='#'><span>Katedra</span></a></li>
          <li><a href='laboratorija.html'><span>Laboratorija</span></a></li>
-         <li><a href='#'><span>Predmet</span></a></li>
+         <li><a href='predmet.html'><span>Predmet</span></a></li>
          <li class='last'><a href='#'><span>Nastavnik</span></a></li>
       </ul>
    </li>

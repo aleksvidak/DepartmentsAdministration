@@ -9,6 +9,7 @@ import javax.persistence.Persistence;
 import model.Katedra;
 import model.Laboratorija;
 import model.Login;
+import model.Predmeti;
 
 public class JPADatabase {
 	private static JPADatabase jpaDatabase;
@@ -128,6 +129,100 @@ public class JPADatabase {
            // if (l == null) {
                 em.getTransaction().begin();
 	              em.remove(l);
+                em.getTransaction().commit();
+                
+                poruka ="OBRISANO";
+          //  } else {
+              
+          //  }
+
+
+        } catch (Exception e) {
+        	poruka = e.getMessage();
+        } finally {
+            em.close();
+        }
+        return poruka;
+    } 
+    
+    
+    public  List<Predmeti> listaPredmeta() {
+        EntityManager em = emf.createEntityManager();
+       List<Predmeti> listaPredmeta = null;
+      
+        try {
+        	
+        	listaPredmeta = em.createQuery("FROM Predmeti p").getResultList();
+        } catch (Exception e) {
+            System.out.printf(e.getMessage());
+        } finally {
+            em.close();
+        }
+        return listaPredmeta;
+    }
+    
+    
+    public String sacuvajPredmet(Predmeti predmet) {
+        String idPredmet = "";
+        EntityManager em = emf.createEntityManager();
+        try {
+           // Laboratorija l = em.find(Laboratorija.class, lab.getId_laboratorije());
+            //if (l == null) {
+                em.getTransaction().begin();
+                em.persist(predmet);
+                em.flush();
+                em.getTransaction().commit();
+                
+                idPredmet =""+ predmet.getID_predmeta();
+          //  } else {
+          //      poruka = "VEC POSTOJI";
+          //  }
+
+
+        } catch (Exception e) {
+        	idPredmet = e.getMessage();
+        } finally {
+            em.close();
+        }
+        return idPredmet;
+    }
+    public String izmeniPredmet(String idPredmeta ,String nazivPred, String brBodova, String semestar, String brCasovaPredavanja, String brCasovaVezbi, String brCasovaOstalo) {
+        String poruka = "";
+        EntityManager em = emf.createEntityManager();
+        try {
+            Predmeti p = em.find(Predmeti.class, Integer.parseInt(idPredmeta));
+           // if (l == null) {
+                em.getTransaction().begin();
+	              p.setNaziv_predmeta(nazivPred);
+	              p.setBr_bodova(Short.parseShort(brBodova));
+	              p.setSemestar(Short.parseShort(semestar));
+	              p.setBr_casova_predvanja(Short.parseShort(brCasovaPredavanja));
+	              p.setBr_casova_vezbi(Short.parseShort(brCasovaVezbi));
+	              p.setBr_casova_ostalo(Short.parseShort(brCasovaOstalo));
+                em.getTransaction().commit();
+                
+                poruka ="IZMENJENO";
+          //  } else {
+              
+          //  }
+
+
+        } catch (Exception e) {
+        	poruka = e.getMessage();
+        } finally {
+            em.close();
+        }
+        return poruka;
+    }
+    
+    public String obrisiPredmet(int idPredmet) {
+        String poruka = "";
+        EntityManager em = emf.createEntityManager();
+        try {
+            Predmeti p = em.find(Predmeti.class, idPredmet);
+           // if (l == null) {
+                em.getTransaction().begin();
+	              em.remove(p);
                 em.getTransaction().commit();
                 
                 poruka ="OBRISANO";

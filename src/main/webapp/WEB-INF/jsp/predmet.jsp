@@ -1,3 +1,4 @@
+<%@page import="model.Predmeti"%>
 <%@page import="model.Katedra"%>
 <%@page import="java.util.List"%>
 <%@page import="model.Laboratorija"%>
@@ -12,14 +13,15 @@
 	<link rel='stylesheet' type='text/css' href='${pageContext.request.contextPath}/resources/css/MasterPageStyle.css' />
 	<link rel='stylesheet' type='text/css' href='${pageContext.request.contextPath}/resources/css/jquery-ui-1.9.2.custom.css' />
 	<link rel='stylesheet' type='text/css' href='${pageContext.request.contextPath}/resources/css/jquery.dataTables_themeroller.css' />
-<link rel='stylesheet' type='text/css' href='${pageContext.request.contextPath}/resources/css/jquery_notification.css' />
+	<link rel='stylesheet' type='text/css' href='${pageContext.request.contextPath}/resources/css/jquery_notification.css' />
 
 <script type="text/javascript" src="resources/script/jquery-1.7.1.min.js"></script>
 <script type="text/javascript" src="resources/script/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="resources/script/jquery-ui-1.9.2.custom.min.js"></script>
-<script type="text/javascript" src="resources/script/laboratorija.js"></script>
 <script type="text/javascript" src="resources/script/jquery.validate.js"></script>
 <script type="text/javascript" src="resources/script/jquery_notification_v.1.js"></script>
+
+<script type="text/javascript" src="resources/script/predmet.js"></script>
 </head>
 <body>
 <div id='wrapper'>
@@ -45,7 +47,7 @@
       <ul>
          <li><a href='#'><span>Katedra</span></a></li>
          <li><a href='laboratorija.html'><span>Laboratorija</span></a></li>
-         <li><a href='#'><span>Predmet</span></a></li>
+         <li><a href='predmet.html'><span>Predmet</span></a></li>
          <li class='last'><a href='#'><span>Nastavnik</span></a></li>
       </ul>
    </li>
@@ -54,29 +56,33 @@
 </ul>
 </div>
 <div id='content'> 
-<div style="width: 50%">
-	<table id="tbLab">
+<div style="width: 100%">
+	<table id="tbPredmet" style="width: 100%">
 			<thead>
 				<tr>
-					<td>ID_Laboratorije</td>
-					<td>Laboratorija</td>
-					<td>ID_Katedre</td>
-					<td>Katedra</td>
-					<td>Sajt</td>
+					<td>ID_predmeta</td>
+					<td>Predmet</td>
+					<td>Broj bodova</td>
+					<td>Semestar</td>
+					<td>Broj casova predavanja</td>
+					<td>Broj casova vezbi</td>
+					<td>Broj casova ostalo</td>
 				</tr>
 			</thead>
 				
 			<tbody>		
 			
-				<%List<Laboratorija> listLab=(List<Laboratorija>)request.getAttribute("labList"); %>				
-				<%for(int i=0;i<listLab.size();i++){
+				<%List<Predmeti> listPred=(List<Predmeti>)request.getAttribute("listaPredmeta"); %>				
+				<%for(int i=0;i<listPred.size();i++){
 						%>
 					<tr>
-					<td><%= listLab.get(i).getId_laboratorije() %></td>
-					<td><%= listLab.get(i).getNaziv_laboratorije() %></td>
-					<td><%= listLab.get(i).getKatedra().getID_katedre() %></td>
-					<td><%= listLab.get(i).getKatedra().getNaziv_katedre() %></td>
-					<td><%= listLab.get(i).getSajt() %></td>
+					<td><%= listPred.get(i).getID_predmeta() %></td>
+					<td><%= listPred.get(i).getNaziv_predmeta() %></td>
+					<td><%= listPred.get(i).getBr_bodova() %></td>
+					<td><%= listPred.get(i).getSemestar() %></td>
+					<td><%= listPred.get(i).getBr_casova_predvanja() %></td>
+					<td><%= listPred.get(i).getBr_casova_vezbi() %></td>
+					<td><%= listPred.get(i).getBr_casova_ostalo() %></td>
 					</tr>						
 					<%					
 					}%>
@@ -88,21 +94,33 @@
                  <input type='button' value='Izmeni' id='btnChange'  disabled="disabled" style="font-family: Verdana,Arial,sans-serif; font-size: 1em; width: 90px;"/> 
                   <input type='button' value='Obrisi' id='btnDel' disabled="disabled" style="font-family: Verdana,Arial,sans-serif; font-size: 1em; width: 90px;"/> 
         </div>
-       <div id="divLabPOPUP" style="width:1000px; display: none" >
-        <form  id="frmLabs"  >
+       <div id="divPredmetPOPUP" style="width:1000px; display: none" >
+        <form  id="frmPredmet"  >
         	<table>
         		<tbody>
         			<tr>
-        				<td>Naziv:</td>
-        				<td><input type="text" id="nazivLab" name="nazivLab"></td>
+        				<td>Predmet:</td>
+        				<td><input type="text" id="nazivPred" name="nazivPred"></td>
         			</tr>
         			<tr>
-        				<td>Sajt:</td>
-        				<td><input type="text" id="sajtLab"></td></tr>
+        				<td>Broj bodova:</td>
+        				<td><input type="text" id="brBodova" name="brBodova"></td></tr>
         			<tr>
-        				<td>Katedra:</td>
-        				<td><div id="katedraLab"></div></td>
-        			</tr>        			
+        				<td>Semestar:</td>
+        				<td><input type="text" id="semestar" name="semestar"></td>
+        			</tr> 
+        				<tr>
+        				<td>Broj casova predavanja:</td>
+        				<td><input type="text" id="brCasovaPredavanja" name="brCasovaPredavanja"></td>
+        			</tr>
+        				<tr>
+        				<td>Broj casova vezbi:</td>
+        				<td><input type="text" id="brCasovaVezbi" name="brCasovaVezbi"></td>
+        			</tr>
+        				<tr>
+        				<td>Broj casova ostalo:</td>
+        				<td><input type="text" id="brCasovaOstalo" name="brCasovaOstalo"></td>
+        			</tr>       			
         		</tbody>
         	</table>
         	
