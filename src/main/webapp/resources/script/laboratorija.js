@@ -43,10 +43,10 @@ $(document).ready(function () {
         "bJQueryUI": true,
       //  "bFilter": false,
          "bStateSave": true,
-//        "aoColumnDefs": [
-//               { "bSearchable": false, "bSortable": false, "bVisible": false, "aTargets": [0] },
-//               { "bSearchable": false, "bSortable": false, "bVisible": false, "aTargets": [2] }
-//        ],
+        "aoColumnDefs": [
+               { "bSearchable": false, "bSortable": false, "bVisible": false, "aTargets": [0] },
+               { "bSearchable": false, "bSortable": false, "bVisible": false, "aTargets": [2] }
+        ],
         "oLanguage": {
             "sProcessing": "Procesiranje u toku...",
             "sLengthMenu": "Prikazi _MENU_  ",
@@ -214,9 +214,10 @@ $(document).ready(function () {
            data: {
            	id_Lab:oTable.fnGetData(anSelected[0])[0].toString()             
            },
-           success: function (data) {	              
-        	   oTable.fnDeleteRow(anSelected[0]);
+           success: function (data) {              
+        	  
         	   if(data=="OBRISANO"){
+        		   oTable.fnDeleteRow(anSelected[0]);
         		    showNotification({
                         message: data,
                        autoClose: true,

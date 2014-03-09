@@ -9,6 +9,7 @@ import javax.persistence.Persistence;
 import model.Katedra;
 import model.Laboratorija;
 import model.Login;
+import model.Nastavnik;
 import model.Predmeti;
 
 public class JPADatabase {
@@ -238,6 +239,101 @@ public class JPADatabase {
         }
         return poruka;
     } 
+    
+    public  List<Nastavnik> listaNastavnika() {
+        EntityManager em = emf.createEntityManager();
+       List<Nastavnik> listaNastavnika = null;
+      
+        try {
+        	
+        	listaNastavnika = em.createQuery("FROM Nastavnik n").getResultList();
+        } catch (Exception e) {
+            System.out.printf(e.getMessage());
+        } finally {
+            em.close();
+        }
+        return listaNastavnika;
+    }
+    
+    public String sacuvajKatedru(Katedra k) {
+        String idKatedre = "";
+        EntityManager em = emf.createEntityManager();
+        try {
+           // Laboratorija l = em.find(Laboratorija.class, lab.getId_laboratorije());
+            //if (l == null) {
+                em.getTransaction().begin();
+	                em.persist(k);
+	                em.flush();
+                em.getTransaction().commit();
+                
+                idKatedre =""+ k.getID_katedre();
+          //  } else {
+          //      poruka = "VEC POSTOJI";
+          //  }
+
+
+        } catch (Exception e) {
+        	idKatedre = e.getMessage();
+        } finally {
+            em.close();
+        }
+        return idKatedre;
+    }
+    
+    public String obrisiKatedru(int IdKatedre) {
+        String poruka = "";
+        EntityManager em = emf.createEntityManager();
+        try {
+            Katedra k = em.find(Katedra.class, IdKatedre);
+           // if (l == null) {
+                em.getTransaction().begin();
+	              em.remove(k);
+                em.getTransaction().commit();
+                
+                poruka ="OBRISANO";
+          //  } else {
+              
+          //  }
+
+
+        } catch (Exception e) {
+        	poruka = e.getMessage();
+        } finally {
+            em.close();
+        }
+        return poruka;
+    }
+    public String izmeniKatedru(String idKatedre, String nazivKat, String rukovodilac, String sekretar) {
+        String poruka = "";
+        EntityManager em = emf.createEntityManager();
+        try {
+            Katedra k = em.find(Katedra.class, Integer.parseInt(idKatedre));
+           // if (l == null) {
+                em.getTransaction().begin();
+	              Nastavnik ruko=new Nastavnik();
+	              ruko.setId_nastavnika(Integer.parseInt(rukovodilac));
+	              
+	              Nastavnik sek=new Nastavnik();
+	              sek.setId_nastavnika(Integer.parseInt(sekretar));
+	              
+	              k.setNaziv_katedre(nazivKat);
+	              k.setNastavnik1(ruko);
+	              k.setNastavnik2(sek);
+                em.getTransaction().commit();
+                
+                poruka ="IZMENJENO";
+          //  } else {
+              
+          //  }
+
+
+        } catch (Exception e) {
+        	poruka = e.getMessage();
+        } finally {
+            em.close();
+        }
+        return poruka;
+    }
     
 
 }
