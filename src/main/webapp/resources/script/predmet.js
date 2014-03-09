@@ -41,10 +41,10 @@ $(document).ready(function () {
         "bJQueryUI": true,
       //  "bFilter": false,
          "bStateSave": true,
-//        "aoColumnDefs": [
-//               { "bSearchable": false, "bSortable": false, "bVisible": false, "aTargets": [0] },
-//               { "bSearchable": false, "bSortable": false, "bVisible": false, "aTargets": [2] }
-//        ],
+        "aoColumnDefs": [
+               { "bSearchable": false, "bSortable": false, "bVisible": false, "aTargets": [0] }
+              // { "bSearchable": false, "bSortable": false, "bVisible": false, "aTargets": [2] }
+        ],
         "oLanguage": {
             "sProcessing": "Procesiranje u toku...",
             "sLengthMenu": "Prikazi _MENU_  ",

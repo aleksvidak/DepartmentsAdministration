@@ -19,12 +19,13 @@ $(document).ready(function () {
 	
 	
 	var anSelected ;
-	function  crtajTabelu(){
+//	function  crtajTabelu(){
     var oTable = $("#tbKatSif").dataTable({
         "bJQueryUI": true,
       //  "bFilter": false,
          "bStateSave": true,
         "aoColumnDefs": [
+
                { "bSearchable": false, "bSortable": false, "bVisible": false, "aTargets": [0] },
                { "bSearchable": false, "bSortable": false, "bVisible": false, "aTargets": [2] },
                { "bSearchable": false, "bSortable": false, "bVisible": false, "aTargets": [4] }
@@ -48,14 +49,15 @@ $(document).ready(function () {
         }
         
     });
-} 
-    var ex = document.getElementById('tbKatSif');
-    if (!$.fn.DataTable.fnIsDataTable(ex)) {
-        crtajTabelu();
-    }
-    else {
-        oTable.fnDraw();
-    }
+
+//} 
+//    var ex = document.getElementById('tbKatSif');
+//    if (!$.fn.DataTable.fnIsDataTable(ex)) {
+//        crtajTabelu();
+//    }
+//    else {
+//        oTable.fnDraw();
+//    }
 
    function fnGetSelected(oTableLocal) { return oTableLocal.$('tr.row_selected'); }
 
