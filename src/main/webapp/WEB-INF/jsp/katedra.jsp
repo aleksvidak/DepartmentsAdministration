@@ -43,7 +43,7 @@
 </ul>
 </div>
 <div id='content'> 
-<h1>DOBRODOSLI BLA BLA BLA</h1>
+<h1>Sadrzaj za katedru</h1>
 </div>
 </div>
 

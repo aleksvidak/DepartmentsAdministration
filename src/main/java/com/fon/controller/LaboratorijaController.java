@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fon.jpadatabase.JPADatabase;
-import com.fon.jsonmodel.JSON_User;
 import com.fon.jsonmodel.KatedraJSON;
 
 @Controller
@@ -23,6 +22,8 @@ public class LaboratorijaController {
 	public String laboratorija(Model model){
 		List<Laboratorija> labList=JPADatabase.dajObjekat().listaLaboratorija();
 		model.addAttribute("labList",labList);
+		List<Katedra> listaKatedri=JPADatabase.dajObjekat().listaKatedri();
+		model.addAttribute("listaKatedri", listaKatedri);
 	
 		return "laboratorija";
 	}

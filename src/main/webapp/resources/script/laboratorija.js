@@ -41,7 +41,7 @@ $(document).ready(function () {
 	var anSelected ;
     var oTable = $("#tbLab").dataTable({
         "bJQueryUI": true,
-        "bFilter": false,
+      //  "bFilter": false,
          "bStateSave": true,
 //        "aoColumnDefs": [
 //               { "bSearchable": false, "bSortable": false, "bVisible": false, "aTargets": [0] },

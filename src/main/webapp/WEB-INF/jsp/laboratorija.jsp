@@ -1,3 +1,4 @@
+<%@page import="model.Katedra"%>
 <%@page import="java.util.List"%>
 <%@page import="model.Laboratorija"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
@@ -34,18 +35,13 @@
    <li class='active'><a href='#'><span>Naslovna</span></a></li>
    <li class='has-sub'><a href='#'><span>Katedre</span></a>
       <ul>
-         <li class='has-sub'><a href='#'><span>Laboratorija 1</span></a>
-            <ul>
-               <li><a href='#'><span>Nastavnici</span></a></li>
-               <li class='last'><a href='#'><span>Predmeti</span></a></li>
-            </ul>
-         </li>
-         <li class='has-sub'><a href='#'><span>Laboratorija 2</span></a>
-            <ul>
-               <li><a href='#'><span>Nastavnici</span></a></li>
-               <li class='last'><a href='#'><span>Predmeti</span></a></li>
-            </ul>
-         </li>
+    <%List<Katedra> listaKatedri=(List<Katedra>)request.getAttribute("listaKatedri");%>
+      <%for(int i=0;i<listaKatedri.size();i++){
+    	  %>
+    	   <li class='has-sub'><a href='katedra.html?id=<%= listaKatedri.get(i).getID_katedre() %>'><span><%= listaKatedri.get(i).getNaziv_katedre() %></span></a> </li>
+    	  <%
+      }
+      %>
       </ul>
    </li>
    <li class='has-sub'><a href='#'><span>Sifarnici</span></a>
@@ -89,7 +85,7 @@
 					}%>
 			</tbody>
 		</table>		
-		</div>
+</div>
   		<div>
                  <input type='button' value='Novi' id='btnNew'  style="font-family: Verdana,Arial,sans-serif; font-size: 1em; width: 90px;"/> 
                  <input type='button' value='Izmeni' id='btnChange'  disabled="disabled" style="font-family: Verdana,Arial,sans-serif; font-size: 1em; width: 90px;"/> 
