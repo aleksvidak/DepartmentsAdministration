@@ -11,6 +11,7 @@ import model.Laboratorija;
 import model.Login;
 import model.Nastavnik;
 import model.Predmeti;
+import model.Pripadnost_predmeta_katedri;
 
 public class JPADatabase {
 	private static JPADatabase jpaDatabase;
@@ -319,6 +320,89 @@ public class JPADatabase {
 	              k.setNaziv_katedre(nazivKat);
 	              k.setNastavnik1(ruko);
 	              k.setNastavnik2(sek);
+                em.getTransaction().commit();
+                
+                poruka ="IZMENJENO";
+          //  } else {
+              
+          //  }
+
+
+        } catch (Exception e) {
+        	poruka = e.getMessage();
+        } finally {
+            em.close();
+        }
+        return poruka;
+    }
+    
+    public String sacuvajPripadnos_predmeta_Katedri(Pripadnost_predmeta_katedri prk) {
+        String poruka = "";
+        EntityManager em = emf.createEntityManager();
+        try {
+           // Laboratorija l = em.find(Laboratorija.class, lab.getId_laboratorije());
+            //if (l == null) {
+                em.getTransaction().begin();
+	                em.persist(prk);
+	                em.flush();
+                em.getTransaction().commit();
+                
+                poruka =""+prk.getId_pripadnosti();
+          //  } else {
+          //      poruka = "VEC POSTOJI";
+          //  }
+
+
+        } catch (Exception e) {
+        	poruka = e.getMessage();
+        } finally {
+            em.close();
+        }
+        return poruka;
+    }
+    
+    public String obrisiPripadnostPredmetaKatedri(int idPripadnost) {
+        String poruka = "";
+        EntityManager em = emf.createEntityManager();
+        try {
+        	Pripadnost_predmeta_katedri prk = em.find(Pripadnost_predmeta_katedri.class, idPripadnost);
+           // if (l == null) {
+                em.getTransaction().begin();
+	              em.remove(prk);
+                em.getTransaction().commit();
+                
+                poruka ="OBRISANO";
+          //  } else {
+              
+          //  }
+
+
+        } catch (Exception e) {
+        	poruka = e.getMessage();
+        } finally {
+            em.close();
+        }
+        return poruka;
+    }
+    public String izmeniPripadnostPredmetaKatedri(String idPripadnost ,String predavac, String katedra,String idPredmeta) {
+        String poruka = "";
+        EntityManager em = emf.createEntityManager();
+        try {
+            Pripadnost_predmeta_katedri prk = em.find(Pripadnost_predmeta_katedri.class, Integer.parseInt(idPripadnost));
+           // if (l == null) {
+                em.getTransaction().begin();
+                	Katedra k=new Katedra();
+                	k.setID_katedre(Integer.parseInt(katedra));
+                	
+                	Predmeti p=new Predmeti();
+                	p.setID_predmeta(Integer.parseInt(idPredmeta));
+                	
+                	Nastavnik n=new Nastavnik();
+                	n.setId_nastavnika(Integer.parseInt(predavac));
+                	
+                	prk.setKatedra(k);
+                	prk.setNastavnik(n);
+                	prk.setPredmeti(p);
                 em.getTransaction().commit();
                 
                 poruka ="IZMENJENO";

@@ -1,7 +1,9 @@
 package model;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
 import java.util.List;
 
 
@@ -37,7 +39,7 @@ public class Predmeti implements Serializable {
 	private short semestar;
 
 	//bi-directional many-to-one association to Pripadnost_predmeta_katedri
-	@OneToMany(mappedBy="predmeti")
+	@OneToMany(mappedBy="predmeti",fetch=FetchType.EAGER)
 	private List<Pripadnost_predmeta_katedri> pripadnostPredmetaKatedris;
 
 	public Predmeti() {
@@ -83,7 +85,7 @@ public class Predmeti implements Serializable {
 		this.br_casova_vezbi = br_casova_vezbi;
 	}
 
-	public Object getNaziv_predmeta() {
+	public String getNaziv_predmeta() {
 		return this.naziv_predmeta;
 	}
 

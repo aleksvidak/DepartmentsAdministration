@@ -1,3 +1,4 @@
+<%@page import="model.Nastavnik"%>
 <%@page import="model.Predmeti"%>
 <%@page import="model.Katedra"%>
 <%@page import="java.util.List"%>
@@ -62,11 +63,19 @@
 				<tr>
 					<td>ID_predmeta</td>
 					<td>Predmet</td>
+					
+					<td>ID_katedre</td>
+					<td>Katedra</td>
+					
+					<td>ID_nastavnika</td>
+					<td>Predavac</td>
+					
 					<td>Broj bodova</td>
 					<td>Semestar</td>
 					<td>Broj casova predavanja</td>
 					<td>Broj casova vezbi</td>
 					<td>Broj casova ostalo</td>
+					<td>ID_PripadnostPredmetaKatedri</td>
 				</tr>
 			</thead>
 				
@@ -78,11 +87,19 @@
 					<tr>
 					<td><%= listPred.get(i).getID_predmeta() %></td>
 					<td><%= listPred.get(i).getNaziv_predmeta() %></td>
+					
+					<td><%= listPred.get(i).getPripadnostPredmetaKatedris().get(0).getKatedra().getID_katedre() %></td>
+					<td><%= listPred.get(i).getPripadnostPredmetaKatedris().get(0).getKatedra().getNaziv_katedre() %></td>
+					
+					<td><%= listPred.get(i).getPripadnostPredmetaKatedris().get(0).getNastavnik().getId_nastavnika() %></td>
+					<td><%= listPred.get(i).getPripadnostPredmetaKatedris().get(0).getNastavnik().getIme() +" "+listPred.get(i).getPripadnostPredmetaKatedris().get(0).getNastavnik().getPrezime() %></td>
+					
 					<td><%= listPred.get(i).getBr_bodova() %></td>
 					<td><%= listPred.get(i).getSemestar() %></td>
 					<td><%= listPred.get(i).getBr_casova_predvanja() %></td>
 					<td><%= listPred.get(i).getBr_casova_vezbi() %></td>
 					<td><%= listPred.get(i).getBr_casova_ostalo() %></td>
+						<td><%= listPred.get(i).getPripadnostPredmetaKatedris().get(0).getId_pripadnosti() %></td>
 					</tr>						
 					<%					
 					}%>
@@ -120,7 +137,41 @@
         				<tr>
         				<td>Broj casova ostalo:</td>
         				<td><input type="text" id="brCasovaOstalo" name="brCasovaOstalo"></td>
-        			</tr>       			
+        			</tr>         		
+        			<tr>
+        				<td>Katedra:</td>
+        				<td>
+        				<select id="katedra" name="katedra">
+        				<option value="">--Izaberite--</option>
+        					<% 						
+        					for(int i=0;i<listaKatedri.size();i++){
+        					%>
+        					<option value=<%= listaKatedri.get(i).getID_katedre() %>>
+        					<%= listaKatedri.get(i).getNaziv_katedre()  %>
+        					</option>>
+        					<%		
+        						}
+        					%>
+        				</select>
+        				</td>
+        			</tr>         		
+        			<tr>
+        				<td>Predavac:</td>
+        				<td>
+        				<select id="predavac" name="predavac">
+        				<option value="">--Izaberite--</option>
+        					<% List<Nastavnik>lNastavnik=(List<Nastavnik>)request.getAttribute("listaNastavnik");        						
+        					for(int i=0;i<lNastavnik.size();i++){
+        					%>
+        					<option value=<%= lNastavnik.get(i).getId_nastavnika() %>>
+        					<%= lNastavnik.get(i).getIme()+" "+lNastavnik.get(i).getPrezime()  %>
+        					</option>>
+        					<%		
+        						}
+        					%>
+        				</select>
+        				</td>
+        			</tr>        			
         		</tbody>
         	</table>
         	
