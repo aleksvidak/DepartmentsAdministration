@@ -1,3 +1,7 @@
+<%@page import="model.Zvanje"%>
+<%@page import="model.Kabinet"%>
+<%@page import="model.Vrsta_nastavnika"%>
+<%@page import="com.fon.jpadatabase.JPADatabase"%>
 <%@page import="model.Nastavnik"%>
 <%@page import="model.Katedra"%>
 <%@page import="java.util.List"%>
@@ -13,15 +17,16 @@
 	<link rel='stylesheet' type='text/css' href='${pageContext.request.contextPath}/resources/css/MasterPageStyle.css' />
 	<link rel='stylesheet' type='text/css' href='${pageContext.request.contextPath}/resources/css/jquery-ui-1.9.2.custom.css' />
 	<link rel='stylesheet' type='text/css' href='${pageContext.request.contextPath}/resources/css/jquery.dataTables_themeroller.css' />
-	<link rel='stylesheet' type='text/css' href='${pageContext.request.contextPath}/resources/css/jquery_notification.css' />
+<link rel='stylesheet' type='text/css' href='${pageContext.request.contextPath}/resources/css/jquery_notification.css' />
 
 <script type="text/javascript" src="resources/script/jquery-1.7.1.min.js"></script>
 <script type="text/javascript" src="resources/script/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="resources/script/jquery-ui-1.9.2.custom.min.js"></script>
+
 <script type="text/javascript" src="resources/script/jquery.validate.js"></script>
 <script type="text/javascript" src="resources/script/jquery_notification_v.1.js"></script>
 
-<script type="text/javascript" src="resources/script/katedraSifarnik.js"></script>
+<script type="text/javascript" src="resources/script/nastavnikSifarnik.js"></script>
 </head>
 <body>
 <div id='wrapper'>
@@ -60,27 +65,50 @@
 </div>
 <div id='content'> 
 <div style="width: 100%">
-	<table id="tbKatSif" width="100%">
+	<table id="tbNastavnik">
 			<thead>
 				<tr>
-					<td>ID_Katedre</td>
-					<td>Katedra</td>
-					<td>ID_Rukovodilac</td>
-					<td>Rukovodilac</td>
-					<td>ID_Sekretar</td>
-					<td>Sekretar</td>
+					<td>ID_Nastavnik</td>
+					<td>Nastavnik</td>
+					<td>E-mail</td>
+					<td>ID_VrsteNastavnika</td>
+					<td>Vrsta</td>
+					<td>ID_Kabineta</td>
+					<td>Kabinet</td>
+					<td>ID_Zvanja</td>
+					<td>Zvanje</td>
+					<td>ID_Privilegije</td>
+					<td>Privilegija</td>
 				</tr>
-			</thead>				
-			<tbody>				
-				<%for(int i=0;i<listaKatedri.size();i++){
+			</thead>
+				
+			<tbody>		
+			
+				<%List<Nastavnik> listaNastavnika=(List<Nastavnik>)request.getAttribute("listaNastavnik"); %>				
+				<%for(int i=0;i<listaNastavnika.size();i++){
 						%>
 					<tr>
-					<td><%= listaKatedri.get(i).getID_katedre()%></td>
-					<td><%= listaKatedri.get(i).getNaziv_katedre() %></td>
-					<td><%= listaKatedri.get(i).getNastavnik1().getId_nastavnika() %></td>
-					<td><%= listaKatedri.get(i).getNastavnik1().getIme()+" "+ listaKatedri.get(i).getNastavnik1().getPrezime() %></td>
-					<td><%= listaKatedri.get(i).getNastavnik2().getId_nastavnika() %></td>
-					<td><%= listaKatedri.get(i).getNastavnik2().getIme()+" "+ listaKatedri.get(i).getNastavnik2().getPrezime() %></td>
+					<td><%= listaNastavnika.get(i).getId_nastavnika() %></td>
+					<td><%= listaNastavnika.get(i).getIme()+" "+listaNastavnika.get(i).getPrezime() %></td>
+					<td><%= listaNastavnika.get(i).getEmail() %></td>
+					<td><%= listaNastavnika.get(i).getVrstaNastavnika().getId_vrste_nastavnika() %></td>
+					<td><%= listaNastavnika.get(i).getVrstaNastavnika().getNaziv_vrste_nastavnika() %></td>
+					<td><%= listaNastavnika.get(i).getKabinet().getId_kabineta() %></td>
+					<td><%= listaNastavnika.get(i).getKabinet().getBroj_kabineta() %></td>
+					<td><%= listaNastavnika.get(i).getId_zvanja_trenutno() %></td>
+					<td><%= JPADatabase.dajObjekat().dajTrenutnoZvanje(listaNastavnika.get(i).getId_zvanja_trenutno()) %></td>
+					<%try{
+						String a=JPADatabase.dajObjekat().dajPrivilegije(listaNastavnika.get(i).getId_nastavnika());
+						String [] p=a.split(";");%>
+					<td><%=p[0] %></td>
+					<td><%= p[1] %></td>
+					<%
+					}
+					catch(Exception e){
+						
+					}%>
+					
+					
 					</tr>						
 					<%					
 					}%>
@@ -92,47 +120,82 @@
                  <input type='button' value='Izmeni' id='btnChange'  disabled="disabled" style="font-family: Verdana,Arial,sans-serif; font-size: 1em; width: 90px;"/> 
                   <input type='button' value='Obrisi' id='btnDel' disabled="disabled" style="font-family: Verdana,Arial,sans-serif; font-size: 1em; width: 90px;"/> 
         </div>
-       <div id="divKatSifPOPUP" style="width:1000px; display: none" >
-        <form  id="frmKatSif">
+       <div id="divNastavnikPOPUP" style="width:1000px; display: none" >
+        <form  id="frmNastavnik"  >
         	<table>
         		<tbody>
         			<tr>
-        				<td>Katedra:</td>
-        				<td><input type="text" id="nazivKat" name="nazivKat"></td>
+        				<td>Ime:</td>
+        				<td><input type="text" id="ime" name="ime"></td>
         			</tr>
         			<tr>
-        				<td>Rukovodilac:</td>
-        				<td>
-        				<select id="rukovodilac" name="rukovodilac">
-        				<option value="">--Izaberite--</option>
-        					<% List<Nastavnik>lNastavnik=(List<Nastavnik>)request.getAttribute("listaNastavnik");        						
-        					for(int i=0;i<lNastavnik.size();i++){
-        					%>
-        					<option value=<%= lNastavnik.get(i).getId_nastavnika() %>>
-        					<%= lNastavnik.get(i).getIme()+" "+lNastavnik.get(i).getPrezime()  %>
-        					</option>>
-        					<%		
-        						}
-        					%>
-        				</select>
-						</td>
+        				<td>Prezime:</td>
+        				<td><input type="text" id="prezime" name="prezime"></td>
         			</tr>
         			<tr>
-        				<td>Sekretar:</td>
+        				<td>E-mail:</td>
+        				<td><input type="text" id="email" name="email"></td>
+        			</tr>
+        			<tr>
+        				<td>Telefon:</td>
+        				<td><input type="text" id="telefon" name="telefon"></td>
+        			</tr>
+        			<tr>
+        				<td>Vrsta:</td>
         				<td>
-        				<select id="sekretar" name="sekretar">
+        				<select id="vrsta" name="vrsta">
         				<option value="">--Izaberite--</option>
-        					<%       						
-        					for(int i=0;i<lNastavnik.size();i++){
+        					<% 	
+        					List<Vrsta_nastavnika> lVrsta=(List<Vrsta_nastavnika>)request.getAttribute("listaVrsta_nastavnika");
+        					for(int i=0;i<lVrsta.size();i++){
         					%>
-        					<option value=<%= lNastavnik.get(i).getId_nastavnika() %>>
-        					<%= lNastavnik.get(i).getIme()+" "+lNastavnik.get(i).getPrezime()  %>
-        					</option>>
+        					<option value=<%= lVrsta.get(i).getId_vrste_nastavnika() %>>
+        					<%= lVrsta.get(i).getNaziv_vrste_nastavnika()  %>
+        					</option>
         					<%		
         						}
         					%>
         				</select>
         				</td>
+        			</tr>
+        			<tr>
+        				<td>Kabinet:</td>
+        				<td><select id="kabinet" name="kabinet">
+        				<option value="">--Izaberite--</option>
+        				    <% 	
+        					List<Kabinet> lKabinet=(List<Kabinet>)request.getAttribute("listaKabinet");
+        					for(int i=0;i<lKabinet.size();i++){
+        					%>
+        					<option value=<%= lKabinet.get(i).getId_kabineta() %>>
+        					<%= lKabinet.get(i).getBroj_kabineta()  %>
+        					</option>
+        					<%		
+        						}
+        					%>
+        				</select>
+        				</td>
+        				</tr>
+        				<tr>
+        				<td>Zvanje:</td>
+        				<td><select id="zvanje" name="zvanje">
+        				<option value="">--Izaberite--</option>
+        				    <% 	
+        					List<Zvanje> lZvanje=(List<Zvanje>)request.getAttribute("listaZvanje");
+        					for(int i=0;i<lKabinet.size();i++){
+        					%>
+        					<option value=<%= lZvanje.get(i).getID_zvanja() %>>
+        					<%= lZvanje.get(i).getNaziv_zvanja() %>
+        					</option>
+        					<%		
+        						}
+        					%>
+        				</select>
+        				</td>
+        				</tr>
+        				<tr>
+        				<td>Licna prezentacija:</td>
+        				<td><textarea rows="4" cols="40" id="licPrez" name="licPrez"></textarea></td>
+        			</tr>
         			</tr>        			
         		</tbody>
         	</table>

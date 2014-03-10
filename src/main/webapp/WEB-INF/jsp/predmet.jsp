@@ -49,11 +49,14 @@
          <li><a href='#'><span>Katedra</span></a></li>
          <li><a href='laboratorija.html'><span>Laboratorija</span></a></li>
          <li><a href='predmet.html'><span>Predmet</span></a></li>
+          <li><a href='#'><span>Vrsta nastavnika</span></a></li>
+         <li><a href='#'><span>Kabinet</span></a></li>
+         <li><a href='#'><span>Zvanje</span></a></li>
          <li class='last'><a href='#'><span>Nastavnik</span></a></li>
       </ul>
    </li>
    <li><a href='#'><span>O fakultetu</span></a></li>
-   <li class='last'><a href='#'><span>Kontakt</span></a></li>
+   <li class='last'><a href='nastavnik.html'><span>Kontakt</span></a></li>
 </ul>
 </div>
 <div id='content'> 

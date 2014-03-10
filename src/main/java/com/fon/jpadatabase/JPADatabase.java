@@ -1,17 +1,25 @@
 package com.fon.jpadatabase;
 
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
+import model.Kabinet;
 import model.Katedra;
 import model.Laboratorija;
 import model.Login;
 import model.Nastavnik;
+import model.Nastavnik_Zvanje;
 import model.Predmeti;
 import model.Pripadnost_predmeta_katedri;
+import model.Vrsta_nastavnika;
+import model.Zvanje;
 
 public class JPADatabase {
 	private static JPADatabase jpaDatabase;
@@ -419,5 +427,180 @@ public class JPADatabase {
         return poruka;
     }
     
+    public String dajTrenutnoZvanje(int idTrenutnoZvanje) {
+        EntityManager em = emf.createEntityManager();
+        String zvanje="";
+        try {
+        	 Nastavnik_Zvanje nasZvanje=em.find(Nastavnik_Zvanje.class, idTrenutnoZvanje);
+        	 zvanje= nasZvanje.getZvanje().getNaziv_zvanja().toString();
+        	
+        } catch (Exception e) {
+            System.out.printf(e.getMessage());
+        } finally {
+            em.close();
+        }
+        return zvanje;
+    }
+    public String dajPrivilegije(int idNastavnika) {
+        EntityManager em = emf.createEntityManager();
+        String privilegija="";
+        try {
+        	List<Login> l=em.createQuery("FROM Login l WHERE l.ID_nastavnika= :id").setParameter("id", idNastavnika).getResultList();
+        	 privilegija= l.get(0).getID_Login()+";"+ l.get(0).getPrivilegija();
+        	
+        } catch (Exception e) {
+            System.out.printf(e.getMessage());
+        } finally {
+            em.close();
+        }
+        return privilegija;
+    }
+    
+    public  List<Vrsta_nastavnika> listaVrsteNastavnika() {
+        EntityManager em = emf.createEntityManager();
+       List<Vrsta_nastavnika> listaVrsteNastavnika = null;
+      
+        try {
+        	
+        	listaVrsteNastavnika = em.createQuery("FROM Vrsta_nastavnika vrn").getResultList();
+        } catch (Exception e) {
+            System.out.printf(e.getMessage());
+        } finally {
+            em.close();
+        }
+        return listaVrsteNastavnika;
+    }
+    public  List<Kabinet> listaKabineta() {
+        EntityManager em = emf.createEntityManager();
+       List<Kabinet> listaKabinet = null;
+      
+        try {
+        	
+        	listaKabinet = em.createQuery("FROM Kabinet vrn").getResultList();
+        } catch (Exception e) {
+            System.out.printf(e.getMessage());
+        } finally {
+            em.close();
+        }
+        return listaKabinet;
+    }
+    public  List<Zvanje> listaZvanje() {
+        EntityManager em = emf.createEntityManager();
+       List<Zvanje> listaZvanje = null;
+      
+        try {
+        	
+        	listaZvanje = em.createQuery("FROM Zvanje z").getResultList();
+        } catch (Exception e) {
+            System.out.printf(e.getMessage());
+        } finally {
+            em.close();
+        }
+        return listaZvanje;
+    }
+    
+    public String sacuvajNastavnika(String ime, String prezime, String email, String telefon, String vrsta, String kabinet, String licPrez, String zvanje) {
+        String idNastavnik = "";
+        EntityManager em = emf.createEntityManager();
+        try {
+           // Laboratorija l = em.find(Laboratorija.class, lab.getId_laboratorije());
+            //if (l == null) {
+                em.getTransaction().begin();
+                	Nastavnik n=new Nastavnik();
+                	n.setIme(ime);
+                	n.setPrezime(prezime);
+                	n.setEmail(email);
+                	n.setTelefon(telefon);
+                	n.setLicna_prezentacija(licPrez);
+                	
+//                	Zvanje z=new Zvanje();
+//                	z.setID_zvanja(Integer.parseInt(zvanje));
+                	Vrsta_nastavnika vr=new Vrsta_nastavnika();
+                	vr.setId_vrste_nastavnika(Integer.parseInt(vrsta));
+                	Kabinet k=new Kabinet();
+                	k.setId_kabineta(Integer.parseInt(kabinet));
+                	
+                	n.setKabinet(k);
+                	n.setVrstaNastavnika(vr);
+                	n.setId_zvanja_trenutno(Integer.parseInt(zvanje));
+                	em.persist(n);
+                	em.flush();
+                	
+                em.getTransaction().commit();
+                
+                idNastavnik =""+ n.getId_nastavnika();
+          //  } else {
+          //      poruka = "VEC POSTOJI";
+          //  }
+
+
+        } catch (Exception e) {
+        	idNastavnik = e.getMessage();
+        } finally {
+            em.close();
+        }
+        return idNastavnik;
+    }
+    
+    public String sacuvajNastavnik_Zvanje(String idNas, String zvanje) {
+        String idNasZvanje = "";
+        EntityManager em = emf.createEntityManager();
+        try {
+           // Laboratorija l = em.find(Laboratorija.class, lab.getId_laboratorije());
+            //if (l == null) {
+        	DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        	Date date =new Date();
+        	
+                em.getTransaction().begin();
+                	Nastavnik_Zvanje nsz=new Nastavnik_Zvanje();
+                	Nastavnik n=new Nastavnik();
+                	n.setId_nastavnika(Integer.parseInt(idNas));
+                	
+                	Zvanje z=new Zvanje();
+                	z.setID_zvanja(Integer.parseInt(zvanje));
+                	
+                	nsz.setNastavnik(n);
+                	nsz.setZvanje(z);
+                	nsz.setDatum_Postavljenja(dateFormat.format(date));
+                	em.persist(nsz);
+                	
+                em.getTransaction().commit();
+                
+                idNasZvanje ="ok";
+          //  } else {
+          //      poruka = "VEC POSTOJI";
+          //  }
+
+
+        } catch (Exception e) {
+        	idNasZvanje = e.getMessage();
+        } finally {
+            em.close();
+        }
+        return idNasZvanje;
+    }
+    public String obrisiNastavnika(int idNastavnik) {
+        String poruka = "";
+        EntityManager em = emf.createEntityManager();
+        try {
+            Nastavnik n = em.find(Nastavnik.class, idNastavnik);
+           // if (l == null) {
+                em.getTransaction().begin();
+	              em.remove(n);
+                em.getTransaction().commit();
+                
+                poruka ="OBRISANO";
+          //  } else {
+              
+          //  }
+
+
+        } catch (Exception e) {
+        	poruka = e.getMessage();
+        } finally {
+            em.close();
+        }
+        return poruka;
+    }
 
 }

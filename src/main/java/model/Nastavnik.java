@@ -35,6 +35,7 @@ public class Nastavnik implements Serializable {
 
 	@Column(name="Telefon")
 	private String telefon;
+	
 
 	//bi-directional many-to-one association to Katedra
 	@OneToMany(mappedBy="nastavnik1")

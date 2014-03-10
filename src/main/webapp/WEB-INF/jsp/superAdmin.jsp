@@ -38,7 +38,7 @@
          <li><a href='#'><span>Vrsta nastavnika</span></a></li>
          <li><a href='#'><span>Kabinet</span></a></li>
          <li><a href='#'><span>Zvanje</span></a></li>
-         <li class='last'><a href='#'><span>Nastavnik</span></a></li>
+         <li class='last'><a href='nastavnik.html'><span>Nastavnik</span></a></li>
       </ul>
    </li>
    <li><a href='#'><span>O fakultetu</span></a></li>

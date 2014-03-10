@@ -113,6 +113,7 @@ $(document).ready(function () {
 	              
 	            },
 	            success: function (data) {
+	            	 if($.isNumeric(data)){
 	            	  oTable.fnAddData([
 	                                   data,
 	                                   $("#nazivLab").val(),
@@ -128,7 +129,15 @@ $(document).ready(function () {
                          autoClose: true,
                          duration: 5
                      });
-
+	            	 }
+	            	 else{
+	            	        showNotification({
+	                            message: data,
+	                            autoClose: true,
+	                            type:"warning",
+	                            duration: 5
+	                        });
+	            	 }
 	            },
 	        error: function(){
 	        	alert("GRESKA");
