@@ -125,7 +125,7 @@
                  <input type='button' value='Izmeni' id='btnChange'  disabled="disabled" style="font-family: Verdana,Arial,sans-serif; font-size: 1em; width: 90px;"/> 
                   <input type='button' value='Obrisi' id='btnDel' disabled="disabled" style="font-family: Verdana,Arial,sans-serif; font-size: 1em; width: 90px;"/> 
         </div>
-        <div id="listaKatedriZaNastavnika" style="width: 50%; margin-top: 100px;">
+        <div id="listaKatedriZaNastavnika" style="width: 40%; margin-top: 100px;">
 		</div>
        <div id="divNastavnikPOPUP" style="width:1000px; display: none" >
         <form  id="frmNastavnik"  >
@@ -203,7 +203,7 @@
         				<td>Licna prezentacija:</td>
         				<td><textarea rows="4" cols="40" id="licPrez" name="licPrez"></textarea></td>
         			</tr>
-        			</tr>        			
+        			       			
         		</tbody>
         	</table>
         	
@@ -218,7 +218,7 @@
         		<tbody>
         			<tr>
         				<td>Katedra:</td>
-        				<td><select id="katZaNas" name=""katZaNas"">
+        				<td><select id="katZaNas" name="katZaNas">
         				<option value="">--Izaberite--</option>
         				    <% 	
         					

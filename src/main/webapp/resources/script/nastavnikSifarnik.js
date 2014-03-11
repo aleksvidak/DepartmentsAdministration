@@ -1,7 +1,72 @@
 $(document).ready(function () {
 	var azuriranje=0;
 	$.ajaxSetup({ cache: false });
+	 $('#btnSacuvajKat').click(function () {
+		  if ($("#frmKatedraZaNastavnik").validate().form()) {	  
+			   var anSelected = fnGetSelected(oTable);
+		        $.ajax({
+		            url: 'sacuvajNastavnikKatedra.html',
+		            type: 'POST',
+		            data: {
+		            	idNastavnika:oTable.fnGetData(anSelected[0])[0].toString(),
+		            	idKat: $("#katZaNas").val()
+		            	
+		              
+		            },
+		            success: function (data) {	   
+		            	if(data=="SACUVANO"){
+		            //	alert(fnGetData(anSelected[0])[0].toString());
+		            		oTableTbKat.fnAddData([    		            	                    		                                
+		                                   $("#katZaNas").val(),
+		                                   $("#katZaNas option:selected").text(),
+		              
+		                                   ]);
+		            	
+		            	  $("#divKatedraZaNastavnikPOPUP").dialog('close');
+		                 
+		                  showNotification({
+	                        message: data,
+	                       autoClose: true,
+	                       duration: 5
+	                    });
+		            	}
+		            	else{
+		            	    showNotification({
+		                        message: data,
+		                        type:"warning",
+		                       autoClose: true,
+		                       duration: 5
+		                    });
+		            		
+		            	}
+
+		            },
+		        error: function(){
+		        	alert("GRESKA");
+		        }
+
+		        }); // kraj ajax
+		  	}
+		   });
+	 
+
+	 
+	  
+	  $('#btnOdustaniKat').click(function () {
+		  $("#divKatedraZaNastavnikPOPUP").dialog('close');
+		   });
 	
+	  $("#frmKatedraZaNastavnik").validate({
+	        rules: {
+	        	katZaNas: { required: true }
+	        	
+	        },
+	        messages: {
+	        
+	        	katZaNas: "Odaberite katedru"
+	   
+	        }
+	    });
 
     
     $("#frmNastavnik").validate({
@@ -31,10 +96,14 @@ $(document).ready(function () {
         "bJQueryUI": true,
       //  "bFilter": false,
          "bStateSave": true,
-//        "aoColumnDefs": [
-//               { "bSearchable": false, "bSortable": false, "bVisible": false, "aTargets": [0] },
-//               { "bSearchable": false, "bSortable": false, "bVisible": false, "aTargets": [2] }
-//        ],
+        "aoColumnDefs": [
+               { "bSearchable": false, "bSortable": false, "bVisible": false, "aTargets": [0] },
+               { "bSearchable": false, "bSortable": false, "bVisible": false, "aTargets": [3] },
+               { "bSearchable": false, "bSortable": false, "bVisible": false, "aTargets": [5] },
+               { "bSearchable": false, "bSortable": false, "bVisible": false, "aTargets": [7] },
+           
+               { "bSearchable": false, "bSortable": false, "bVisible": false, "aTargets": [9] }
+        ],
         "oLanguage": {
             "sProcessing": "Procesiranje u toku...",
             "sLengthMenu": "Prikazi _MENU_  ",
@@ -61,10 +130,10 @@ $(document).ready(function () {
     	        "bJQueryUI": true,
     	      //  "bFilter": false,
     	         "bStateSave": true,
-//    	        "aoColumnDefs": [
-//    	               { "bSearchable": false, "bSortable": false, "bVisible": false, "aTargets": [0] },
-//    	               { "bSearchable": false, "bSortable": false, "bVisible": false, "aTargets": [2] }
-//    	        ],
+    	        "aoColumnDefs": [
+    	             //  { "bSearchable": false, "bSortable": false, "bVisible": false, "aTargets": [0] },
+    	               { "bSearchable": false, "bSortable": false, "bVisible": false, "aTargets": [0] }
+    	        ],
     	        "oLanguage": {
     	            "sProcessing": "Procesiranje u toku...",
     	            "sLengthMenu": "Prikazi _MENU_  ",
@@ -85,19 +154,53 @@ $(document).ready(function () {
     	        
     	    });//kraj crtanja
     	  $('#btnDelKat').click(function () {
-    			alert("OBRISI KATEDRU IZ TABELE PRIPADNOST NAS KATEDRI");
+   		   var anSelected = fnGetSelected(oTable);
+   		   var anSelectedTbKat =fnGetSelected(oTableTbKat);;
+   		   $.ajax({
+   	            url: 'obrisiNastavnikKatedra.html',
+   	            type: 'POST',
+   	            data: {
+   	            	idNastavnika:oTable.fnGetData(anSelected[0])[0].toString(),
+   	            	idKat: oTableTbKat.fnGetData(anSelectedTbKat[0])[0].toString(),
+   	            	
+   	              
+   	            },
+   	            success: function (data) {	   
+   	            	if(data=="OBRISANO"){
+   	            //	alert(fnGetData(anSelected[0])[0].toString()); oTableTbKat.fnDeleteRow(anSelected[0]);
+   	            	
+   	            		oTableTbKat.fnDeleteRow(anSelectedTbKat[0]);
+   	            	 
+   	                 
+   	                  showNotification({
+                          message: data,
+                         autoClose: true,
+                         duration: 5
+                      });
+   	            	}
+   	            	else{
+   	            	    showNotification({
+   	                        message: data,
+   	                        type:"warning",
+   	                       autoClose: true,
+   	                       duration: 5
+   	                    });
+   	            		
+   	            	}
 
-    		   });
+   	            },
+   	        error: function(){
+   	        	alert("GRESKA");
+   	        }
+
+   	        }); // kraj ajax
+
+   		   });
+  
     	  $('#btnNewKat').click(function () {
-  			otvoriPopUpKatNas();
+    		  $("#katZaNas").attr('value', '');
+    			otvoriPopUpKatNas();
 
-  		   });
-    	  $('#btnSacuvajKat').click(function () {
-    		  alert("SACUVAJ KATEDRU U TABELu PRIPADNOST NAS KATEDRI");
-
-    		   });
-    	  $('#btnOdustaniKat').click(function () {
-    		  $("#divKatedraZaNastavnikPOPUP").dialog('close');
     		   });
     	   $("#tbKatedreZaNastavnika tbody tr").live('click', function (e) {       
     		   oTableTbKat.$('tr.row_selected').removeClass('row_selected');

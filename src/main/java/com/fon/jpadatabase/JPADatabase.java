@@ -17,6 +17,7 @@ import model.Login;
 import model.Nastavnik;
 import model.Nastavnik_Zvanje;
 import model.Predmeti;
+import model.Pripadnost_Nastavnika_katedri;
 import model.Pripadnost_predmeta_katedri;
 import model.Vrsta_nastavnika;
 import model.Zvanje;
@@ -673,4 +674,69 @@ public class JPADatabase {
         }
         return n;
     }
+    
+    public String sacuvajNastavnikPripadaKatedri(String idNastavnika, String idKat) {
+    	 
+    	String poruka = "";
+        EntityManager em = emf.createEntityManager();
+        List<Pripadnost_Nastavnika_katedri> lnk=null;
+        try {
+        	Nastavnik nas=em.find(Nastavnik.class, Integer.parseInt(idNastavnika));
+        	Katedra kat=em.find(Katedra.class, Integer.parseInt(idKat));
+        	lnk = em.createQuery("FROM Pripadnost_Nastavnika_katedri k WHERE k.katedra = :kat AND k.nastavnik = :nas").setParameter("kat",kat).setParameter("nas",nas).getResultList();
+            if (lnk.size()==0) {
+            	Pripadnost_Nastavnika_katedri nk=new Pripadnost_Nastavnika_katedri();
+            	nk.setKatedra(kat);
+            	nk.setNastavnik(nas);
+                em.getTransaction().begin();
+                em.persist(nk); 
+              
+                em.getTransaction().commit();
+                
+                poruka ="SACUVANO";
+            }
+            else {
+            
+                poruka = "NASTAVNIK VEC PRIPADA KATEDRI "+ kat.getNaziv_katedre();
+            }
+
+
+        } catch (Exception e) {
+        	poruka = e.getMessage();
+        } finally {
+            em.close();
+        }
+        return poruka;
+    } 
+    public String obrisiNastavnikPripadaKatedri(String idNastavnika, String idKat) {
+        String poruka = "";
+        EntityManager em = emf.createEntityManager();
+        List<Pripadnost_Nastavnika_katedri> lnk=null;
+        try {
+        	Nastavnik nas=em.find(Nastavnik.class, Integer.parseInt(idNastavnika));
+        	Katedra kat=em.find(Katedra.class, Integer.parseInt(idKat));
+        	lnk = em.createQuery("FROM Pripadnost_Nastavnika_katedri k WHERE k.katedra = :kat AND k.nastavnik = :nas").setParameter("kat",kat).setParameter("nas",nas).getResultList();
+            if (lnk.size()!=0) {
+            	Pripadnost_Nastavnika_katedri nk=em.find(Pripadnost_Nastavnika_katedri.class, lnk.get(0).getId_pripadnosti());
+            	nk.setKatedra(kat);
+            	nk.setNastavnik(nas);
+                em.getTransaction().begin();
+                em.remove(nk);                
+                em.getTransaction().commit();
+                
+                poruka ="OBRISANO";
+            } else {
+            
+                poruka = "GRESKA PRI PRONALAZENJU PODATKA U TABELI";
+            }
+
+
+        } catch (Exception e) {
+        	poruka = e.getMessage();
+        } finally {
+            em.close();
+        }
+        return poruka;
+    } 
+    
 }

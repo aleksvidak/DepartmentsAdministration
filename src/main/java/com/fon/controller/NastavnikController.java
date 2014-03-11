@@ -81,7 +81,19 @@ public class NastavnikController {
 		return lkat;
 	}
 	
+	@RequestMapping(value="/sacuvajNastavnikKatedra", method=RequestMethod.POST)
+	public @ResponseBody String sacuvajNastavnikPripadaKatedri(String idNastavnika, String idKat){
+		String poruka=JPADatabase.dajObjekat().sacuvajNastavnikPripadaKatedri(idNastavnika, idKat);
 	
+		return poruka;
+	}
+	@RequestMapping(value="/obrisiNastavnikKatedra", method=RequestMethod.POST)
+	public @ResponseBody String obrisiNastavnikPripadaKatedri(String idNastavnika, String idKat){
+		//System.out.println(idNastavnika+" "+idKat);
+		String poruka=JPADatabase.dajObjekat().obrisiNastavnikPripadaKatedri(idNastavnika, idKat);
+	
+		return poruka;
+	}
 	
 	
 }
