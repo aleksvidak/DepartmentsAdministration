@@ -79,6 +79,8 @@
 					<td>Zvanje</td>
 					<td>ID_Privilegije</td>
 					<td>Privilegija</td>
+					<td>Prezentacija</td>
+					<td>Telefon</td>
 				</tr>
 			</thead>
 				
@@ -108,18 +110,23 @@
 						
 					}%>
 					
-					
+					<td><%= listaNastavnika.get(i).getLicna_prezentacija() %></td>
+					<td><%= listaNastavnika.get(i).getTelefon() %></td>
 					</tr>						
 					<%					
 					}%>
 			</tbody>
 		</table>		
 </div>
+
+
   		<div>
                  <input type='button' value='Novi' id='btnNew'  style="font-family: Verdana,Arial,sans-serif; font-size: 1em; width: 90px;"/> 
                  <input type='button' value='Izmeni' id='btnChange'  disabled="disabled" style="font-family: Verdana,Arial,sans-serif; font-size: 1em; width: 90px;"/> 
                   <input type='button' value='Obrisi' id='btnDel' disabled="disabled" style="font-family: Verdana,Arial,sans-serif; font-size: 1em; width: 90px;"/> 
         </div>
+        <div id="listaKatedriZaNastavnika" style="width: 50%; margin-top: 100px;">
+		</div>
        <div id="divNastavnikPOPUP" style="width:1000px; display: none" >
         <form  id="frmNastavnik"  >
         	<table>
@@ -205,6 +212,36 @@
         <input type='button' value='Odustani' id='btnOdustani'/>
          </form>
         </div> 
+       <div id="divKatedraZaNastavnikPOPUP" style="width:1000px; display: none" >
+        <form  id="frmKatedraZaNastavnik"  >
+        	<table>
+        		<tbody>
+        			<tr>
+        				<td>Katedra:</td>
+        				<td><select id="katZaNas" name=""katZaNas"">
+        				<option value="">--Izaberite--</option>
+        				    <% 	
+        					
+        					for(int i=0;i<listaKatedri.size();i++){
+        					%>
+        					<option value=<%= listaKatedri.get(i).getID_katedre() %>>
+        					<%= listaKatedri.get(i).getNaziv_katedre() %>
+        					</option>
+        					<%		
+        						}
+        					%>
+        				</select>
+        				</td>
+        				</tr>
+        				
+        			        			
+        		</tbody>
+        	</table>
+        	
+       	<input type="button" value='Sacuvaj' id='btnSacuvajKat'/>    
+        <input type='button' value='Odustani' id='btnOdustaniKat'/>
+         </form>
+        </div>        
 </div>
 </div>
 

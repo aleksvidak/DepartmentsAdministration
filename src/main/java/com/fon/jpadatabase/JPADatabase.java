@@ -542,7 +542,7 @@ public class JPADatabase {
         return idNastavnik;
     }
     
-    public String sacuvajNastavnik_Zvanje(String idNas, String zvanje) {
+    public  String sacuvajNastavnik_Zvanje(String idNas, String zvanje) {
         String idNasZvanje = "";
         EntityManager em = emf.createEntityManager();
         try {
@@ -602,5 +602,75 @@ public class JPADatabase {
         }
         return poruka;
     }
+    public String izmeniNastavnika(String idNastavnika,String ime, String prezime, String email, String telefon, String vrsta, String kabinet, String licPrez, String zvanje) {
+        String poruka = "";
+        EntityManager em = emf.createEntityManager();
+        try {
+            Nastavnik n = em.find(Nastavnik.class, Integer.parseInt(idNastavnika));
+           // if (l == null) {
+        	DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        	Date date =new Date();
+                em.getTransaction().begin();
+                
+	             n.setIme(ime);
+	             n.setPrezime(prezime);
+	             n.setTelefon(telefon);
+	             n.setEmail(email);
+	             n.setLicna_prezentacija(licPrez);
+	             Kabinet k=new Kabinet();
+	             k.setId_kabineta(Integer.parseInt(kabinet));
+	             n.setKabinet(k);	             
+	             Vrsta_nastavnika v=new Vrsta_nastavnika();
+	             v.setId_vrste_nastavnika(Integer.parseInt(vrsta));
+	             n.setVrstaNastavnika(v);
+	             
+	             //provera da li mu je trenutno zvanje ovo koje sad pokusavam da upisem
+	             if(Integer.parseInt(zvanje)!=n.getId_zvanja_trenutno()){//onda treba da se upise i u tabelu zvanja za istoriju
+	            	 n.setId_zvanja_trenutno(Integer.parseInt(zvanje));
+	            	 em.persist(n);
+	            	 	Nastavnik_Zvanje nsz=new Nastavnik_Zvanje();
+	                	
+	                	Zvanje z=new Zvanje();
+	                	z.setID_zvanja(Integer.parseInt(zvanje));
+	                	
+	                	nsz.setNastavnik(n);
+	                	nsz.setZvanje(z);
+	                	nsz.setDatum_Postavljenja(dateFormat.format(date));
+	                	
+	                	em.persist(nsz);
+	            	
+	             }
+	             else{
+	             em.persist(n);
+	             }
+                em.getTransaction().commit();
+                
+                poruka ="IZMENJENO";
+          //  } else {
+              
+          //  }
 
+
+        } catch (Exception e) {
+        	poruka = e.getMessage();
+        } finally {
+            em.close();
+        }
+        return poruka;
+    }
+
+    public  Nastavnik dajNastavnika(String idNas) {
+    	 Nastavnik n=null;
+        EntityManager em = emf.createEntityManager();
+        try {
+          n = em.find(Nastavnik.class, Integer.parseInt(idNas));
+          
+        
+        } catch (Exception e) {
+        	
+        } finally {
+            em.close();
+        }
+        return n;
+    }
 }

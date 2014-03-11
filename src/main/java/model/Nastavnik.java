@@ -1,7 +1,9 @@
 package model;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
 import java.util.List;
 
 
@@ -60,7 +62,7 @@ public class Nastavnik implements Serializable {
 	private List<Nastavnik_Zvanje> nastavnikZvanjes;
 
 	//bi-directional many-to-one association to Pripadnost_Nastavnika_katedri
-	@OneToMany(mappedBy="nastavnik")
+	@OneToMany(mappedBy="nastavnik",fetch=FetchType.EAGER)
 	private List<Pripadnost_Nastavnika_katedri> pripadnostNastavnikaKatedris;
 
 	//bi-directional many-to-one association to Pripadnost_predmeta_katedri
