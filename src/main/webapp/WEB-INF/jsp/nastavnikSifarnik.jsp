@@ -123,7 +123,8 @@
   		<div>
                  <input type='button' value='Novi' id='btnNew'  style="font-family: Verdana,Arial,sans-serif; font-size: 1em; width: 90px;"/> 
                  <input type='button' value='Izmeni' id='btnChange'  disabled="disabled" style="font-family: Verdana,Arial,sans-serif; font-size: 1em; width: 90px;"/> 
-                  <input type='button' value='Obrisi' id='btnDel' disabled="disabled" style="font-family: Verdana,Arial,sans-serif; font-size: 1em; width: 90px;"/> 
+                 <input type='button' value='Obrisi' id='btnDel' disabled="disabled" style="font-family: Verdana,Arial,sans-serif; font-size: 1em; width: 90px;"/>
+                  <input type='button' value='Administracija naloga' id='btnAdministracijaNaloga' disabled="disabled" style="font-family: Verdana,Arial,sans-serif; font-size: 1em; width: 200px;"/> 
         </div>
         <div id="listaKatedriZaNastavnika" style="width: 40%; margin-top: 100px;">
 		</div>
@@ -241,7 +242,38 @@
        	<input type="button" value='Sacuvaj' id='btnSacuvajKat'/>    
         <input type='button' value='Odustani' id='btnOdustaniKat'/>
          </form>
-        </div>        
+        </div>
+        
+        <div id="divAdministracijaNalogaPOPUP" style="width:1000px; display: none" >
+        <form  id="frmdministracijaNaloga"  >
+        	<table>
+        		<tbody>
+        			<tr>
+        				<td>Korisnicko ime:</td>
+        				<td><input type="text" id="kIme" name="kIme"></td>
+        				</tr>
+        				<tr>
+        				<td>Lozinka:</td>
+        				<td><input type="text" id="lozinka" name="lozinka"></td>
+        				</tr>
+        				 <tr>
+        				<td>Privilegija:</td>
+        				<td><select id="privilegija" name="privilegija">
+        				<option value="">--Izaberite--</option>
+        				<option value="superAdmin">superAdmin</option>
+        				<option value="adminKatedre">adminKatedre</option>
+        				<option value="adminLab">adminLab</option> 
+        				<option value="obicanKorisnik">Obican korisnik</option>   
+        				</select>
+        				</td>
+        				</tr>			
+        		</tbody>
+        	</table>
+        	
+       	<input type="button" value='Sacuvaj' id='btnSacuvajAdminNal'/>    
+        <input type='button' value='Odustani' id='btnOdustaniAdminNal'/>
+         </form>
+        </div>         
 </div>
 </div>
 

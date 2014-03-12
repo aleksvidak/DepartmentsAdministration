@@ -50,8 +50,92 @@ $(document).ready(function () {
 		   });
 	 
 
-	 
+	  $('#btnAdministracijaNaloga').click(function () {
+		  $("#kIme").attr('value',"");
+          $("#lozinka").attr('value',"");
+          $("#privilegija").attr('value', "");
+		  var anSelected = fnGetSelected(oTable);
+		  $.ajax({
+	            url: 'administracijaNaloga.json',
+	            type: 'POST',
+	            data: {
+	            	idNastavnika:oTable.fnGetData(anSelected[0])[0].toString()
+	            },
+	            success: function (data) {
+	            	//alert(data.korisnickoIme+ " " +data.lozinka+" "+data.privilegija);
+	         	   $("#kIme").attr('value',data.korisnickoIme);
+	               $("#lozinka").attr('value',data.lozinka);
+	               $("#privilegija").attr('value', data.privilegija);
+	      		  		  
+	   		   $("#divAdministracijaNalogaPOPUP").dialog({ 		   
+	   	            title: "Nastavnik: "+oTable.fnGetData(anSelected[0])[1].toString(),
+	   	            width: 650,
+	   	            modal: true,
+	   	            open: function () {
+	   	                $('.error').html('');
+	   	                //$(this).parent().appendTo($('#frmLabs'));
+	   	            }
+	   	        });
+
+	            },
+	        error: function(){
+	        	alert("GRESKA");
+	        }
+
+	        }); // kraj ajax
+		  
+
+
+		   });
 	  
+   $('#btnOdustaniAdminNal').click(function () {
+				  $("#divAdministracijaNalogaPOPUP").dialog('close');
+				});
+   
+   $('#btnSacuvajAdminNal').click(function () {
+	  if ($("#frmdministracijaNaloga").validate().form()) {	
+	   var anSelected = fnGetSelected(oTable);
+	   $.ajax({
+           url: 'izmeniAdministracijaNaloga.html',
+           type: 'POST',
+           data: {
+	           	idNastavnika:oTable.fnGetData(anSelected[0])[0].toString(),
+	           	kIme: $("#kIme").val(),
+	           	lozinka: $("#lozinka").val(),
+	           	privilegija:$("#privilegija").val()
+           },
+           success: function (data) {	 
+        	
+           	if(data=="IZMENJENO" || data=="SACUVANO"){
+           		oTable.fnUpdate($("#privilegija").val(), anSelected[0], 10);
+           	
+           	  $("#divAdministracijaNalogaPOPUP").dialog('close');
+                
+                 showNotification({
+                   message: data,
+                  autoClose: true,
+                  duration: 5
+               });
+           	}
+           	else{
+           	    showNotification({
+                       message: data,
+                       type:"warning",
+                      autoClose: true,
+                      duration: 5
+                   });
+           		
+           	}
+           }
+           ,
+       error: function(){
+       	alert("GRESKA");
+       }
+
+       }); // kraj ajax
+	  }
+	  });
+   
 	  $('#btnOdustaniKat').click(function () {
 		  $("#divKatedraZaNastavnikPOPUP").dialog('close');
 		   });
@@ -86,6 +170,20 @@ $(document).ready(function () {
         	vrsta:"Izaberite vrstu",
         	zvanje:"Izaberite zvanje",
         	kabinet:"Izaberite kabinet"
+        }
+    });
+    
+    $("#frmdministracijaNaloga").validate({
+        rules: {
+        	kIme: { required: true },
+        	lozinka: { required: true },
+        	privilegija: { required: true }
+        	
+        },
+        messages: {
+        	kIme:"Unesite korisnicko ime",
+        	lozinka:"Unesite lozinku",
+        	privilegija:"Izaberite privilegiju"
         }
     });
 	
@@ -271,6 +369,7 @@ $(document).ready(function () {
         
         $("#btnChange").attr('disabled', false);
         $("#btnDel").attr('disabled', false);
+        $("#btnAdministracijaNaloga").attr('disabled', false);
         
      
     });   

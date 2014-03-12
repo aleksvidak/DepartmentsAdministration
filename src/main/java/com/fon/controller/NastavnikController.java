@@ -5,6 +5,7 @@ import java.util.List;
 
 import model.Kabinet;
 import model.Katedra;
+import model.Login;
 import model.Nastavnik;
 import model.Vrsta_nastavnika;
 import model.Zvanje;
@@ -39,6 +40,7 @@ public class NastavnikController {
 		
 		List<Zvanje> listaZvanje=JPADatabase.dajObjekat().listaZvanje();
 		model.addAttribute("listaZvanje", listaZvanje);
+
 		return "nastavnikSifarnik";
 	}
 	
@@ -94,6 +96,25 @@ public class NastavnikController {
 	
 		return poruka;
 	}
+	
+	@RequestMapping(value="/administracijaNaloga", method=RequestMethod.POST)
+	public @ResponseBody Login administracijaNaloga(String idNastavnika){
+		
+		Login login=JPADatabase.dajObjekat().dajLoginZaAdministracijuNaloga(Integer.parseInt(idNastavnika));
+		
+		
+	
+		
+		return login;
+	}
+	@RequestMapping(value="/izmeniAdministracijaNaloga", method=RequestMethod.POST)
+	public @ResponseBody String izmeniAdministracijaNaloga(String idNastavnika, String kIme,String	lozinka, String privilegija){
+		
+		String poruka=JPADatabase.dajObjekat().izmeniAdministracijaNaloga(idNastavnika, kIme,lozinka, privilegija);
+		
+		return poruka;
+	}
+	
 	
 	
 }

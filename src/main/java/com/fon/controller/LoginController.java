@@ -27,7 +27,7 @@ public class LoginController {
 		
 		//PodaciPrijava k=PodaciPrijava.login(korisnik.getKorisnickoIme(), korisnik.getKorisnickaSifra());
 		
-		System.out.println(korisnik.getKorisnickoIme());
+		//System.out.println(korisnik.getKorisnickoIme());
 		List<Login> lkorisnik=JPADatabase.dajObjekat().PrijavanaSistem(korisnik.getKorisnickoIme(), korisnik.getLozinka());
 		
 		if(!lkorisnik.isEmpty())

@@ -583,10 +583,16 @@ public class JPADatabase {
     public String obrisiNastavnika(int idNastavnik) {
         String poruka = "";
         EntityManager em = emf.createEntityManager();
+        List<Login> login=null;
         try {
             Nastavnik n = em.find(Nastavnik.class, idNastavnik);
+            login = em.createQuery("FROM Login l WHERE l.ID_nastavnika = :idNas").setParameter("idNas",idNastavnik).getResultList();
+            em.getTransaction().begin();
+            if(login.size()>0){
+            	em.remove(login.get(0));
+            }
            // if (l == null) {
-                em.getTransaction().begin();
+               
 	              em.remove(n);
                 em.getTransaction().commit();
                 
@@ -728,6 +734,65 @@ public class JPADatabase {
             } else {
             
                 poruka = "GRESKA PRI PRONALAZENJU PODATKA U TABELI";
+            }
+
+
+        } catch (Exception e) {
+        	poruka = e.getMessage();
+        } finally {
+            em.close();
+        }
+        return poruka;
+    } 
+    public Login dajLoginZaAdministracijuNaloga(int idNastavnika) {
+        String poruka = "";
+        EntityManager em = emf.createEntityManager();
+        List<Login> login=null;
+        Login l=null;
+        try {
+        	
+        	login = em.createQuery("FROM Login l WHERE l.ID_nastavnika = :idNas").setParameter("idNas",idNastavnika).getResultList();
+        	if(login.size()>0)
+        		l=login.get(0);
+
+
+        } catch (Exception e) {
+        	System.out.print(e.getMessage());
+        } finally {
+            em.close();
+        }
+        return l;
+    } 
+    
+    public String izmeniAdministracijaNaloga(String idNastavnika, String kIme, String lozinka, String privilegija) {
+    	String poruka = "";
+        EntityManager em = emf.createEntityManager();
+        List<Login> lLog=null;
+        try {
+        	lLog =em.createQuery("FROM Login l WHERE l.ID_nastavnika = :idNas").setParameter("idNas",Integer.parseInt(idNastavnika)).getResultList();
+            if (lLog.size()==0) {//znaci da se dodaje novi
+            	Login lnew=new Login();
+            	lnew.setID_nastavnika(Integer.parseInt(idNastavnika));
+            	lnew.setKorisnickoIme(kIme);
+            	lnew.setLozinka(lozinka);
+            	lnew.setPrivilegija(privilegija);
+                em.getTransaction().begin();
+                	em.persist(lnew); 
+                em.getTransaction().commit();
+                
+                poruka ="SACUVANO";
+            }
+            else {
+            	Login l=lLog.get(0);
+            	l.setID_nastavnika(Integer.parseInt(idNastavnika));
+            	l.setKorisnickoIme(kIme);
+            	l.setLozinka(lozinka);
+            	l.setPrivilegija(privilegija);
+                em.getTransaction().begin();
+                	em.persist(l); 
+                em.getTransaction().commit();
+            	
+                poruka = "IZMENJENO";
             }
 
 
