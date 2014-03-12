@@ -804,4 +804,132 @@ public class JPADatabase {
         return poruka;
     } 
     
+    public String sacuvajZvanje(String zvanje) {
+    	String poruka = "";
+        EntityManager em = emf.createEntityManager();
+        try {
+        	
+        		Zvanje z=new Zvanje();
+        		z.setNaziv_zvanja(zvanje);
+                em.getTransaction().begin();
+                em.persist(z); 
+                em.flush();
+                em.getTransaction().commit();
+                poruka =""+z.getID_zvanja();
+               
+            
+        } catch (Exception e) {
+        	poruka = e.getMessage();
+        } finally {
+            em.close();
+        }
+        return poruka;
+    } 
+    public String obrisiZvanje(String idZvanje) {
+    	String poruka = "";
+        EntityManager em = emf.createEntityManager();
+        Zvanje lz=null;
+        try {
+        	
+        	lz=em.find(Zvanje.class, Integer.parseInt(idZvanje));
+                em.getTransaction().begin();
+                em.remove(lz); 
+                
+                em.getTransaction().commit();
+                poruka ="OBRISANO";
+               
+            
+        } catch (Exception e) {
+        	poruka = e.getMessage();
+        } finally {
+            em.close();
+        }
+        return poruka;
+    } 
+    
+    public String sacuvajKabinet(String kabinet) {
+    	String poruka = "";
+        EntityManager em = emf.createEntityManager();
+        try {
+        	
+        		Kabinet k=new Kabinet();
+        		k.setBroj_kabineta(kabinet);
+                em.getTransaction().begin();
+                em.persist(k); 
+                em.flush();
+                em.getTransaction().commit();
+                poruka =""+k.getId_kabineta();
+               
+            
+        } catch (Exception e) {
+        	poruka = e.getMessage();
+        } finally {
+            em.close();
+        }
+        return poruka;
+    } 
+    public String obrisiKabinet(String idKabinet) {
+    	String poruka = "";
+        EntityManager em = emf.createEntityManager();
+        Kabinet k=null;
+        try {
+        	
+        	k=em.find(Kabinet.class, Integer.parseInt(idKabinet));
+                em.getTransaction().begin();
+                em.remove(k); 
+                
+                em.getTransaction().commit();
+                poruka ="OBRISANO";
+               
+            
+        } catch (Exception e) {
+        	poruka = e.getMessage();
+        } finally {
+            em.close();
+        }
+        return poruka;
+    } 
+    public String sacuvajVrstu(String vrsta) {
+    	String poruka = "";
+        EntityManager em = emf.createEntityManager();
+        try {
+        	
+        		Vrsta_nastavnika n=new Vrsta_nastavnika();
+        		n.setNaziv_vrste_nastavnika(vrsta);
+                em.getTransaction().begin();
+                em.persist(n); 
+                em.flush();
+                em.getTransaction().commit();
+                poruka =""+n.getId_vrste_nastavnika();
+               
+            
+        } catch (Exception e) {
+        	poruka = e.getMessage();
+        } finally {
+            em.close();
+        }
+        return poruka;
+    } 
+    public String obrisiVrstu(String idVrsta) {
+    	String poruka = "";
+        EntityManager em = emf.createEntityManager();
+        Vrsta_nastavnika k=null;
+        try {
+        	
+        	k=em.find(Vrsta_nastavnika.class, Integer.parseInt(idVrsta));
+                em.getTransaction().begin();
+                em.remove(k); 
+                
+                em.getTransaction().commit();
+                poruka ="OBRISANO";
+               
+            
+        } catch (Exception e) {
+        	poruka = e.getMessage();
+        } finally {
+            em.close();
+        }
+        return poruka;
+    }
+
 }
