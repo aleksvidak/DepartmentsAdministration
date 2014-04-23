@@ -20,13 +20,29 @@ public class Login implements Serializable {
 	private int ID_nastavnika;
 
 	@Column(name="KorisnickoIme")
-	private String korisnickoIme;
+	private String j_username; //spring security j_username
 
 	@Column(name="Lozinka")
-	private String lozinka;
+	private String j_password; //spring security j_password
 
 	@Column(name="Privilegija")
 	private String privilegija;
+
+	public String getJ_username() {
+		return j_username;
+	}
+
+	public void setJ_username(String j_username) {
+		this.j_username = j_username;
+	}
+
+	public String getJ_password() {
+		return j_password;
+	}
+
+	public void setJ_password(String j_password) {
+		this.j_password = j_password;
+	}
 
 	public Login() {
 	}
@@ -47,21 +63,21 @@ public class Login implements Serializable {
 		this.ID_nastavnika = ID_nastavnika;
 	}
 
-	public String getKorisnickoIme() {
-		return this.korisnickoIme;
+	/*public String getKorisnickoIme() {
+		return this.j_username;
 	}
 
 	public void setKorisnickoIme(String korisnickoIme) {
-		this.korisnickoIme = korisnickoIme;
+		this.j_username = korisnickoIme;
 	}
 
 	public String getLozinka() {
-		return this.lozinka;
+		return this.j_password;
 	}
 
 	public void setLozinka(String lozinka) {
-		this.lozinka = lozinka;
-	}
+		this.j_password = lozinka;
+	}*/
 
 	public String getPrivilegija() {
 		return this.privilegija;

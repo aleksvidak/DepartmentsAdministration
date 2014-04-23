@@ -1,7 +1,12 @@
 package model;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import java.util.List;
 
 
@@ -32,15 +37,17 @@ public class Katedra implements Serializable {
 	private Nastavnik nastavnik2;
 
 	//bi-directional many-to-one association to Laboratorija
-	@OneToMany(mappedBy="katedra")
+	@OneToMany(mappedBy="katedra",fetch=FetchType.EAGER)
+	@Fetch(FetchMode.SUBSELECT)
 	private List<Laboratorija> laboratorijas;
 
 	//bi-directional many-to-one association to Pripadnost_Nastavnika_katedri
-	@OneToMany(mappedBy="katedra")
+	@OneToMany(mappedBy="katedra",fetch=FetchType.EAGER)	
 	private List<Pripadnost_Nastavnika_katedri> pripadnostNastavnikaKatedris;
 
 	//bi-directional many-to-one association to Pripadnost_predmeta_katedri
-	@OneToMany(mappedBy="katedra")
+	@OneToMany(mappedBy="katedra",fetch=FetchType.EAGER)
+	@Fetch(FetchMode.SUBSELECT)
 	private List<Pripadnost_predmeta_katedri> pripadnostPredmetaKatedris;
 
 	public Katedra() {

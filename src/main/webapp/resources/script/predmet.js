@@ -1,4 +1,5 @@
 $(document).ready(function () {
+	
 	var azuriranje=0;
 	$.ajaxSetup({ cache: false });
 	
@@ -48,8 +49,8 @@ $(document).ready(function () {
         "aoColumnDefs": [
                { "bSearchable": false, "bSortable": false, "bVisible": false, "aTargets": [0] },
                { "bSearchable": false, "bSortable": false, "bVisible": false, "aTargets": [2] },
-               { "bSearchable": false, "bSortable": false, "bVisible": false, "aTargets": [4] },
-               { "bSearchable": false, "bSortable": false, "bVisible": false, "aTargets": [11] }
+               { "bSearchable": false, "bSortable": false, "bVisible": false, "aTargets": [4] }
+              // { "bSearchable": false, "bSortable": false, "bVisible": false, "aTargets": [11] }
         ],
         "oLanguage": {
             "sProcessing": "Procesiranje u toku...",

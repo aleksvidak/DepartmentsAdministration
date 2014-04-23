@@ -6,8 +6,8 @@
 <%@page import="model.Katedra"%>
 <%@page import="java.util.List"%>
 <%@page import="model.Laboratorija"%>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=utf-8"
+    pageEncoding="utf-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -32,7 +32,20 @@
 <body>
 <div id='wrapper'>
 <div id='header'>
-<p id='headertekst'>Fakultet organizacionih nauka</p>
+<table>
+	<tbody>
+		<tr>
+			<td><div class="logo-container">
+<div class="logo"></div>
+</div></td>
+<td><p id='headertekst'>Fakultet organizacionih nauka</p></td>
+<td style="text-align: center;	vertical-align: bottom;">
+<p id="trenutniKorisnik">Dobrodošli, ${nastavnik}</p>
+<a href="izmeniNalog.html">Izmeni nalog</a></td>
+<td><button class="btnOdjava" onclick="location.href = 'prijava.html';">Odjava</button></td>
+		</tr>		
+	</tbody>
+</table>
 </div>
 <div id='maincontent'>
 <div id='cssmenu'>
@@ -77,7 +90,6 @@
 					<td>ID_Kabineta</td>
 					<td>Kabinet</td>
 					<td>ID_Zvanja</td>
-					<td>Zvanje</td>
 					<td>ID_Privilegije</td>
 					<td>Privilegija</td>
 					<td>Prezentacija</td>
@@ -99,7 +111,6 @@
 					<td><%= listaNastavnika.get(i).getKabinet().getId_kabineta() %></td>
 					<td><%= listaNastavnika.get(i).getKabinet().getBroj_kabineta() %></td>
 					<td><%= listaNastavnika.get(i).getId_zvanja_trenutno() %></td>
-					<td><%= JPADatabase.dajObjekat().dajTrenutnoZvanje(listaNastavnika.get(i).getId_zvanja_trenutno()) %></td>
 					<%try{
 						String a=JPADatabase.dajObjekat().dajPrivilegije(listaNastavnika.get(i).getId_nastavnika());
 						String [] p=a.split(";");%>

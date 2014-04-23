@@ -14,9 +14,9 @@
 			<class>model.Vrsta_nastavnika</class>
 			<class>model.Zvanje</class>
 			<properties>
-			<property name="javax.persistence.jdbc.url" value="jdbc:sqlserver://localhost:1433;databaseName=FON_MASTER"/>
+			<property name="javax.persistence.jdbc.url" value="jdbc:sqlserver://localhost:1433;databaseName=FON_MASTER_1"/>
 			<property name="javax.persistence.jdbc.user" value="sa"/>
-			<property name="javax.persistence.jdbc.password" value="masterfon"/>
+			<property name="javax.persistence.jdbc.password" value="morrison"/>
 			<property name="javax.persistence.jdbc.driver" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
 		</properties>
 	</persistence-unit>

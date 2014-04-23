@@ -1,25 +1,33 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <beans:beans xmlns="http://www.springframework.org/schema/security"
 	xmlns:beans="http://www.springframework.org/schema/beans" 
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
 	http://www.springframework.org/schema/security
-	http://www.springframework.org/schema/security/spring-security-3.0.3.xsd">
+	http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+ 
+ <global-method-security secured-annotations="enabled" />
  
 	<http auto-config="true">
-		<intercept-url pattern="/welcome*" access="ROLE_USER" />
-		<form-login login-page="/login" default-target-url="/welcome"
-			authentication-failure-url="/loginfailed" />
-		<logout logout-success-url="/logout" />
+		<intercept-url pattern="/prijava.html*" method="GET" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+		<intercept-url pattern="/resources/**" method="GET" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+		<intercept-url pattern="/**" access="ROLE_ADMIN" />
+		<form-login login-page="/prijava.html" default-target-url="/superAdmin.html"
+			always-use-default-target="true" authentication-failure-url="/prijava.html?i=1"  />
+		<logout logout-success-url="/prijava.html" invalidate-session="true" logout-url="/logout" />
 	</http>
  
 	<authentication-manager>
 	  <authentication-provider>
-		<user-service>
-			<user name="a" password="123456" authorities="ROLE_USER" />
-		</user-service>
+			<jdbc-user-service  data-source-ref="baza"
+		      users-by-username-query="
+		      select KorisnickoIme, Lozinka, Enabled from Login where KorisnickoIme=?"
+		      
+		      authorities-by-username-query="
+		      select l.KorisnickoIme, l.Privilegija from Login l 
+		      where l.KorisnickoIme =?  "
+			/>
 	  </authentication-provider>
 	</authentication-manager>
- 
+	
 </beans:beans>

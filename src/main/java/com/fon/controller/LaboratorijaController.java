@@ -3,6 +3,9 @@ package com.fon.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import model.Katedra;
 import model.Laboratorija;
 
@@ -19,10 +22,22 @@ import com.fon.jsonmodel.KatedraJSON;
 public class LaboratorijaController {
 	
 	@RequestMapping(value="/laboratorija", method=RequestMethod.GET)
-	public String laboratorija(Model model){
+	public String laboratorija(Model model, HttpServletRequest request){
+		HttpSession sesija = request.getSession();
 		List<Laboratorija> labList=JPADatabase.dajObjekat().listaLaboratorija();
 		model.addAttribute("labList",labList);
-		
+		/*if(sesija.getAttribute("privilegije")=="superAdmin"){
+		List<Laboratorija> labList=JPADatabase.dajObjekat().listaLaboratorija();
+		model.addAttribute("labList",labList);
+		}
+		else if(sesija.getAttribute("privilegije")=="adminLab"){
+			int id=Integer.parseInt(sesija.getAttribute("privilegije")+"");
+			List<Laboratorija> labList=JPADatabase.dajObjekat().listaLaboratorija();
+			//List<Laboratorija> labList=JPADatabase.dajObjekat().listaLaboratorijaZaAdminLab(id);
+			model.addAttribute("labList",labList);
+			
+		}*/
+	
 		List<Katedra> listaKatedri=JPADatabase.dajObjekat().listaKatedri();
 		model.addAttribute("listaKatedri", listaKatedri);
 	

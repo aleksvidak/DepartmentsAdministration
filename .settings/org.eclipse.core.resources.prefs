@@ -1,4 +1,5 @@
 eclipse.preferences.version=1
+encoding//src/main/resources/messages_rs.properties=UTF-8
 encoding//src/main/webapp/WEB-INF/jsp/login.jsp=UTF-8
 encoding//src/main/webapp/WEB-INF/jsp/superAdmin.jsp=UTF-8
 encoding//src/main/webapp/resources/script/laboratorija.js=UTF-8

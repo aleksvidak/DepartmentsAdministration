@@ -10,6 +10,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
+import com.fon.controller.Predmet;
+
 import model.Kabinet;
 import model.Katedra;
 import model.Laboratorija;
@@ -39,12 +41,12 @@ public class JPADatabase {
         return jpaDatabase;
     }
 
-    public  List<Login> PrijavanaSistem(String KorisnickoIme, String Lozinka) {
+    public  List<Login> prijavaNaSistem(String KorisnickoIme, String Lozinka) {
         EntityManager em = emf.createEntityManager();
        List<Login> ListaKorisnika = null;
       
         try {
-        	ListaKorisnika = em.createQuery("FROM Login k WHERE k.korisnickoIme = :KorisnickoIme AND k.lozinka = :Lozinka").setParameter("KorisnickoIme", KorisnickoIme).setParameter("Lozinka", Lozinka).getResultList();
+        	ListaKorisnika = em.createQuery("FROM Login k WHERE k.j_username = :KorisnickoIme AND k.j_password = :Lozinka").setParameter("KorisnickoIme", KorisnickoIme).setParameter("Lozinka", Lozinka).getResultList();
         } catch (Exception e) {
             System.out.printf(e.getMessage());
         } finally {
@@ -67,7 +69,7 @@ public class JPADatabase {
         }
         return listaLaboratorija;
     }
-    
+   
     public  List<Katedra> listaKatedri() {
         EntityManager em = emf.createEntityManager();
        List<Katedra> listaKatedra = null;
@@ -113,6 +115,7 @@ public class JPADatabase {
         try {
             Laboratorija l = em.find(Laboratorija.class, lab.getId_laboratorije());
            // if (l == null) {
+            
                 em.getTransaction().begin();
 	               l.setKatedra(lab.getKatedra());
 	               l.setNaziv_laboratorije(lab.getNaziv_laboratorije());
@@ -434,13 +437,15 @@ public class JPADatabase {
         try {
         	 Nastavnik_Zvanje nasZvanje=em.find(Nastavnik_Zvanje.class, idTrenutnoZvanje);
         	 zvanje= nasZvanje.getZvanje().getNaziv_zvanja().toString();
+        	 
         	
         } catch (Exception e) {
             System.out.printf(e.getMessage());
+            System.out.printf("SRANJE");
         } finally {
             em.close();
         }
-        return zvanje;
+        return zvanje="KURAC";
     }
     public String dajPrivilegije(int idNastavnika) {
         EntityManager em = emf.createEntityManager();
@@ -773,8 +778,8 @@ public class JPADatabase {
             if (lLog.size()==0) {//znaci da se dodaje novi
             	Login lnew=new Login();
             	lnew.setID_nastavnika(Integer.parseInt(idNastavnika));
-            	lnew.setKorisnickoIme(kIme);
-            	lnew.setLozinka(lozinka);
+            	lnew.setJ_username(kIme);
+            	lnew.setJ_password(lozinka);
             	lnew.setPrivilegija(privilegija);
                 em.getTransaction().begin();
                 	em.persist(lnew); 
@@ -785,8 +790,8 @@ public class JPADatabase {
             else {
             	Login l=lLog.get(0);
             	l.setID_nastavnika(Integer.parseInt(idNastavnika));
-            	l.setKorisnickoIme(kIme);
-            	l.setLozinka(lozinka);
+            	l.setJ_username(kIme);
+            	l.setJ_password(lozinka);
             	l.setPrivilegija(privilegija);
                 em.getTransaction().begin();
                 	em.persist(l); 
@@ -931,5 +936,41 @@ public class JPADatabase {
         }
         return poruka;
     }
+    
+    
+    public Katedra dajKatedru(int idKatedre) {
+       
+        EntityManager em = emf.createEntityManager();
+       
+        Katedra k=null;
+        try {
+            k= em.find(Katedra.class, idKatedre);
+        } catch (Exception e) {
+        	
+        } finally {
+            em.close();
+        }
+        return k;
+    }
+
+	public Predmeti detaljiPredmeta(int idPredmeta) {
+		   EntityManager em = emf.createEntityManager();
+	       
+	        Predmeti p=null;
+	        try {
+	           p= em.find(Predmeti.class, idPredmeta);
+	        } catch (Exception e) {
+	        	
+	        } finally {
+	            em.close();
+	        }
+	        return p;
+	}
+    
+
+    
+    
+    
+    
 
 }

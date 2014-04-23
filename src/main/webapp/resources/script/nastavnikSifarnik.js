@@ -1,6 +1,14 @@
 $(document).ready(function () {
 	var azuriranje=0;
 	$.ajaxSetup({ cache: false });
+	
+    $('#linkZaPredmet').click(function() { 
+        alert("asd");
+    }); 
+	
+	
+	
+	
 	 $('#btnSacuvajKat').click(function () {
 		  if ($("#frmKatedraZaNastavnik").validate().form()) {	  
 			   var anSelected = fnGetSelected(oTable);
@@ -194,7 +202,7 @@ $(document).ready(function () {
         "bJQueryUI": true,
       //  "bFilter": false,
          "bStateSave": true,
-        "aoColumnDefs": [
+       "aoColumnDefs": [
                { "bSearchable": false, "bSortable": false, "bVisible": false, "aTargets": [0] },
                { "bSearchable": false, "bSortable": false, "bVisible": false, "aTargets": [3] },
                { "bSearchable": false, "bSortable": false, "bVisible": false, "aTargets": [5] },
@@ -493,7 +501,7 @@ $(document).ready(function () {
 	                                   $("#kabinet option:selected").text(),
 	                                   $("#zvanje").val(),
 	                                   $("#zvanje option:selected").text(),
-	                                   "",
+	                                  // "",
 	                                   "",
 	                                   $("#licPrez").val(),
 	                                   $("#telefon").val()
@@ -542,6 +550,7 @@ $(document).ready(function () {
    });
 //   
    $('#btnChange').click(function () {
+	 // alert("GAVRA");
 	  
 	   azuriranje=1;
 	   var anSelected = fnGetSelected(oTable);
@@ -552,9 +561,9 @@ $(document).ready(function () {
        $("#email").attr('value', oTable.fnGetData(anSelected[0])[2].toString());
        $("#vrsta").attr('value', oTable.fnGetData(anSelected[0])[3].toString());
        $("#kabinet").attr('value',oTable.fnGetData(anSelected[0])[5].toString());
-       $("#licPrez").attr('value', oTable.fnGetData(anSelected[0])[11].toString());
-       $("#zvanje").attr('value', oTable.fnGetData(anSelected[0])[7].toString());
-       $("#telefon").attr('value', oTable.fnGetData(anSelected[0])[12].toString());
+       $("#licPrez").attr('value', oTable.fnGetData(anSelected[0])[10].toString());
+      $("#zvanje").attr('value', oTable.fnGetData(anSelected[0])[7].toString());
+      $("#telefon").attr('value', oTable.fnGetData(anSelected[0])[11].toString());
       
        otvoriPopUp();
        

@@ -8,7 +8,7 @@
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
 
-
+	
 	<mvc:annotation-driven/>
 		<bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
 		<property name="order" value="0" />
@@ -40,5 +40,13 @@
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" p:prefix="/WEB-INF/jsp/" p:suffix=".jsp" p:order="1"></bean>
 	
 	<mvc:resources location="/resources/" mapping="/resources/**"/>
+	
+	<mvc:interceptors>
+		<bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" p:paramName="language"/>
+	</mvc:interceptors>
+	
+	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource" p:basename="messages"></bean>
+	
+	<bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver" p:defaultLocale="rs"></bean>
 	
 </beans>

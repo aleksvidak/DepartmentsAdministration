@@ -3,8 +3,8 @@
 <%@page import="model.Katedra"%>
 <%@page import="java.util.List"%>
 <%@page import="model.Laboratorija"%>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=utf-8"
+    pageEncoding="utf-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -28,7 +28,20 @@
 <body>
 <div id='wrapper'>
 <div id='header'>
-<p id='headertekst'>Fakultet organizacionih nauka</p>
+<table>
+	<tbody>
+		<tr>
+			<td><div class="logo-container">
+<div class="logo"></div>
+</div></td>
+<td><p id='headertekst'>Fakultet organizacionih nauka</p></td>
+<td style="text-align: center;	vertical-align: bottom;">
+<p id="trenutniKorisnik">Dobrodošli, ${nastavnik}</p>
+<a href="izmeniNalog.html">Izmeni nalog</a></td>
+<td><button class="btnOdjava" onclick="location.href = 'prijava.html';">Odjava</button></td>
+		</tr>		
+	</tbody>
+</table>
 </div>
 <div id='maincontent'>
 <div id='cssmenu'>
@@ -61,7 +74,7 @@
 </ul>
 </div>
 <div id='content'> 
-<div style="width: 100%">
+<div style="width: 100%; float: left;">
 	<table id="tbPredmet" style="width: 100%">
 			<thead>
 				<tr>
@@ -79,7 +92,7 @@
 					<td>Broj casova predavanja</td>
 					<td>Broj casova vezbi</td>
 					<td>Broj casova ostalo</td>
-					<td>ID_PripadnostPredmetaKatedri</td>
+					<!-- <td>ID_PripadnostPredmetaKatedri</td> -->
 				</tr>
 			</thead>
 				
@@ -103,7 +116,7 @@
 					<td><%= listPred.get(i).getBr_casova_predvanja() %></td>
 					<td><%= listPred.get(i).getBr_casova_vezbi() %></td>
 					<td><%= listPred.get(i).getBr_casova_ostalo() %></td>
-						<td><%= listPred.get(i).getPripadnostPredmetaKatedris().get(0).getId_pripadnosti() %></td>
+						<%-- <td><%= listPred.get(i).getPripadnostPredmetaKatedris().get(0).getId_pripadnosti() %></td> --%>
 					</tr>						
 					<%					
 					}%>
